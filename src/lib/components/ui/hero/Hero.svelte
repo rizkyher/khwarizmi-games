@@ -1,601 +1,273 @@
 <script lang="ts">
-  import { Play, Sparkles, MousePointer2 } from "@lucide/svelte";
+  import { Play, Sparkles, Wind } from "@lucide/svelte";
+  import { Button } from "$lib/components/ui/button";
 
-  let mouseY = $state(0);
+  // STATE
+  let innerWidth = $state(0);
+  let innerHeight = $state(0);
   let mouseX = $state(0);
+  let mouseY = $state(0);
 
   function handleMouseMove(e: MouseEvent) {
-    mouseX = (e.clientX / window.innerWidth - 0.5) * 30;
-    mouseY = (e.clientY / window.innerHeight - 0.5) * 30;
+    if (innerWidth > 0 && innerHeight > 0) {
+      // Mouse interaction physics
+      mouseX = (e.clientX / innerWidth - 0.5) * 30;
+      mouseY = (e.clientY / innerHeight - 0.5) * 30;
+    }
   }
 </script>
 
-<section onmousemove={handleMouseMove} role="region" aria-label="Khwarizmi Games Hero Section" class="hero-section">
-  <!-- Background Blobs -->
-  <div class="absolute inset-0 pointer-events-none overflow-hidden">
-    <div class="blob blob-1" style="transform: translate({mouseX * -0.8}px, {mouseY * -0.8}px)"></div>
-    <div class="blob blob-2" style="transform: translate({mouseX * 0.8}px, {mouseY * 0.8}px)"></div>
+<svelte:window bind:innerWidth bind:innerHeight />
 
-    <!-- Floating Clouds -->
-    <div class="cloud cloud-1" style="transform: translateX({mouseX * 0.3}px) translateY({mouseY * 0.3}px)">☁️</div>
-    <div class="cloud cloud-2" style="transform: translateX({mouseX * -0.5}px) translateY({mouseY * -0.5}px)">☁️</div>
-    <div class="cloud cloud-3" style="transform: translateX({mouseX * 0.7}px) translateY({mouseY * 0.7}px)">☁️</div>
-    <div class="cloud cloud-4" style="transform: translateX({mouseX * 0.4}px) translateY({mouseY * 0.4}px)">☁️</div>
-    <div class="cloud cloud-5" style="transform: translateX({mouseX * -0.6}px) translateY({mouseY * -0.6}px)">☁️</div>
+<section onmousemove={handleMouseMove} role="region" class="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#e0f2f1] cursor-default selection:bg-[#bc6c25]/30 selection:text-[#2d2d2d]">
+  <div class="fixed inset-0 pointer-events-none z-50 opacity-[0.05] mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
-    <!-- Spirit Dust Particles -->
-    {#each Array(30) as _, i}
-      <div
-        class="spirit-dust"
-        style="
-          left: {Math.random() * 100}%; 
-          top: {Math.random() * 100}%; 
-          animation-delay: {Math.random() * 10}s;
-          color: {['#fefae0', '#d9e4dd', '#e4e9be'][Math.floor(Math.random() * 3)]};
-          transform: scale({Math.random() * 0.5 + 0.5});
-        "
-      >
-        ✨
-      </div>
-    {/each}
+  <div class="absolute inset-0 bg-gradient-to-b from-[#A5D8FF] via-[#E8F5E9] to-[#FFF9C4]">
+    <div class="absolute -top-[50%] -left-[20%] w-[150%] h-[150%] bg-[conic-gradient(from_0deg,transparent_0deg,white_10deg,transparent_20deg,white_40deg,transparent_60deg)] opacity-10 animate-spin-slow pointer-events-none"></div>
+
+    <div class="pixel-cloud absolute top-[15%] left-[-5%] opacity-70 scale-150 animate-drift-slow" style="transform: translate({mouseX * 0.2}px, {mouseY * 0.1}px)">☁️</div>
+    <div class="pixel-cloud absolute top-[40%] right-[-5%] opacity-50 scale-125 animate-drift-medium" style="transform: translate({mouseX * -0.3}px, {mouseY * 0.2}px)">☁️</div>
+    <div class="pixel-cloud absolute top-[10%] right-[20%] opacity-40 animate-drift-fast" style="transform: translate({mouseX * 0.1}px, {mouseY * 0.4}px)">☁️</div>
   </div>
 
-  <!-- Main Content -->
-  <div class="content-wrapper">
-    <!-- Header Badge -->
-    <div class="badge-wrapper">
-      <div class="badge">
-        <span class="badge-text">
-          <Sparkles size={14} class="animate-spin-slow" />
-          EST. 2024 // SPIRIT_REALM
-          <Sparkles size={14} class="animate-spin-slow" />
-        </span>
-      </div>
+  {#each Array(25) as _, i}
+    <div
+      class="absolute rounded-full animate-float-particle"
+      style="
+        left: {Math.random() * 100}%; 
+        top: {Math.random() * 100}%; 
+        width: {Math.random() * 6 + 2}px;
+        height: {Math.random() * 6 + 2}px;
+        background-color: {Math.random() > 0.6 ? '#2d2d2d' : '#ffffff'};
+        opacity: {Math.random() * 0.5 + 0.2};
+        /* Randomize animation duration for chaotic feel */
+        animation-duration: {Math.random() * 15 + 10}s;
+        animation-delay: {Math.random() * -10}s;
+      "
+    ></div>
+  {/each}
+
+  <div class="relative z-20 flex flex-col items-center text-center px-4 max-w-4xl">
+    <div class="mb-8 px-4 py-1 bg-[#fdf6e3]/90 border-2 border-[#2d2d2d] shadow-[4px_4px_0px_0px_rgba(45,45,45,0.2)] animate-float">
+      <span class="text-[10px] md:text-xs font-mono font-bold text-[#606c38] flex items-center gap-2 tracking-[0.2em]">
+        <Sparkles size={12} class="animate-pulse text-[#bc6c25]" />
+        EST. 2024 // SPIRIT_REALM
+      </span>
     </div>
 
-    <!-- Title -->
-    <div class="title-wrapper">
-      <h1 class="main-title">
-        <span class="title-line">Khwarizmi</span>
-        <span class="title-line subtitle">Games</span>
+    <div class="relative group">
+      <h1 class="font-pixel text-6xl md:text-9xl text-[#2d2d2d] leading-none select-none drop-shadow-sm z-10 relative">
+        <span class="block" style="text-shadow: 4px 4px 0px #fdf6e3;">KHWARIZMI</span>
+        <span class="block text-[#556b2f] italic mt-[-10px] md:mt-[-25px]" style="text-shadow: 3px 3px 0px #fdf6e3;">Games</span>
       </h1>
-      <div class="butterfly" style="transform: translate({mouseX * 1.2}px, {mouseY * 1.2}px)">🦋</div>
+
+      <div class="absolute top-0 right-0 text-5xl pointer-events-none animate-fly-path z-50">
+        <div class="animate-flutter">🦋</div>
+      </div>
+
+      <div class="absolute bottom-0 left-10 text-3xl pointer-events-none animate-fly-path-reverse z-0 opacity-80">
+        <div class="animate-flutter delay-100">🦋</div>
+      </div>
     </div>
 
-    <!-- Description & CTA -->
-    <div class="description-wrapper">
-      <p class="description">
-        A digital archive where <span class="highlight">imagination</span> meets the warmth of watercolor and pixel craftsmanship.
-      </p>
+    <p class="mt-8 max-w-lg font-mono text-[#4a4036] text-lg md:text-xl leading-relaxed bg-[#fdf6e3]/60 backdrop-blur-sm p-6 rounded-sm border-2 border-[#2d2d2d]/10 shadow-sm relative overflow-hidden">
+      <span class="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer skew-x-12"></span>
+      A digital archive where <span class="text-[#bc6c25] font-bold border-b-2 border-[#bc6c25]/30">imagination</span> meets the warmth of watercolor and pixel craftsmanship.
+    </p>
 
-      <div class="cta-section">
-        <button class="cta-button">
-          <span class="cta-content">
-            <Play size={24} fill="currentColor" />
-            ENTER_PARK
-          </span>
-          <div class="cta-overlay"></div>
-        </button>
+    <div class="mt-12 flex flex-col items-center gap-6">
+      <Button
+        class="group relative h-14 px-10 bg-[#2d2d2d] hover:bg-[#3d4c53] text-[#fdf6e3] border-b-4 border-r-4 border-[#bc6c25] active:border-0 active:translate-y-1 transition-all rounded-none font-pixel text-xl tracking-wide overflow-hidden"
+      >
+        <Play size={18} class="mr-3 fill-current group-hover:rotate-12 transition-transform" />
+        <span class="relative z-10">ENTER_PARK</span>
+        <div class="absolute inset-0 bg-[#556b2f] transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+      </Button>
 
-        <div class="mouse-hint">
-          <MousePointer2 size={18} />
-          <span>Move to stir the breeze</span>
-        </div>
+      <div class="flex items-center gap-2 text-[#606c38] font-mono text-xs opacity-80 animate-pulse">
+        <Wind size={14} />
+        <span>Breathe in, breathe out.</span>
       </div>
     </div>
   </div>
 
-  <!-- Footer Landscape -->
-  <div class="footer-landscape">
-    <!-- Hills -->
-    <div class="hills" style="transform: translateX({mouseX * 0.2}px)"></div>
+  <div class="absolute bottom-0 w-full h-48 pointer-events-none z-10">
+    <div class="absolute bottom-0 w-full h-full bg-[#C5E1A5] opacity-80 clip-hills-far transition-transform duration-75" style="transform: translateX({mouseX * 0.05}px)"></div>
+    <div class="absolute bottom-0 w-full h-40 bg-[#AED581] opacity-90 clip-hills-mid transition-transform duration-75" style="transform: translateX({mouseX * 0.1}px)"></div>
 
-    <!-- Ground -->
-    <div class="ground">
-      <div class="ground-pattern"></div>
+    <!-- <div class="absolute bottom-0 w-full h-24 bg-[#558B2F] border-t-4 border-[#2d2d2d]">
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-      <!-- Grass -->
-      <div class="grass-container">
-        {#each Array(20) as _, i}
-          <div class="grass" style="left: {i * 5}%; animation-delay: {i * 0.5}s; transform: translateX({mouseX * 0.1}px)">🌱</div>
+      <div class="flex justify-between items-end h-full px-2 w-[110%] -ml-[5%] overflow-hidden">
+        {#each Array(45) as _, i}
+          <div
+            class="text-2xl relative animate-sway-grass"
+            style="
+                /* Randomize start time and speed for natural wind effect */
+                animation-delay: {i * 0.1 - 5}s; 
+                animation-duration: {3 + Math.random() * 3}s;
+                transform-origin: bottom center; 
+                bottom: -6px;
+                filter: hue-rotate({i * 5}deg) brightness({0.9 + Math.random() * 0.2});
+                font-size: {Math.random() * 15 + 20}px;
+                opacity: 0.9;
+                z-index: {i % 2 === 0 ? 10 : 0};
+              "
+          >
+            🌱
+          </div>
         {/each}
       </div>
-
-      <!-- Mushrooms -->
-      <div class="mushroom-container">
-        {#each Array(8) as _, i}
-          <span class="mushroom" style="animation-delay: {i * 0.4}s; transform: translateY({Math.sin(i) * 10}px)">🍄</span>
-        {/each}
-      </div>
-    </div>
+    </div> -->
   </div>
-
-  <!-- Texture Overlays -->
-  <div class="texture-overlay texture-paper"></div>
-  <div class="texture-overlay texture-dots"></div>
 </section>
 
 <style>
-  /* Variables */
-  :root {
-    --color-bg-light: #f1f0e8;
-    --color-bg-dark: #e0e7d7;
-    --color-cream: #fdf6e3;
-    --color-dark: #2d2d2d;
-    --color-forest: #283618;
-    --color-sage: #606c38;
-    --color-brown: #bc6c25;
-    --color-mint: #d9e4dd;
-    --color-pale: #e4e9be;
+  @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    background: #fdf6e3;
   }
 
-  /* Main Section */
-  .hero-section {
-    position: relative;
-    min-height: 100vh;
-    background: linear-gradient(to bottom, var(--color-bg-light), var(--color-bg-dark));
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: 5rem;
-    cursor: crosshair;
-    image-rendering: pixelated;
+  .font-pixel {
+    font-family: "VT323", monospace;
   }
 
-  /* Background Blobs */
-  .blob {
-    position: absolute;
-    filter: blur(100px);
-    animation: pulse 3s ease-in-out infinite;
+  /* --- Clip Paths --- */
+  .clip-hills-far {
+    clip-path: polygon(0% 100%, 0% 30%, 20% 50%, 40% 20%, 60% 45%, 80% 25%, 100% 40%, 100% 100%);
+  }
+  .clip-hills-mid {
+    clip-path: polygon(0% 100%, 0% 60%, 15% 45%, 35% 70%, 55% 50%, 75% 65%, 100% 55%, 100% 100%);
   }
 
-  .blob-1 {
-    top: 15%;
-    left: 10%;
-    width: 24rem;
-    height: 12rem;
-    background: var(--color-mint);
-    opacity: 0.4;
-  }
-
-  .blob-2 {
-    bottom: 20%;
-    right: 10%;
-    width: 20rem;
-    height: 10rem;
-    background: var(--color-pale);
-    opacity: 0.3;
-    filter: blur(80px);
-    animation-delay: 1s;
-  }
-
-  /* Floating Clouds */
-  .cloud {
-    position: absolute;
-    font-size: 6rem;
-    opacity: 0.3;
-    user-select: none;
-    pointer-events: none;
-  }
-
-  .cloud-1 {
-    top: 10%;
-    left: -20%;
-    font-size: 9rem;
-    animation: driftRight 40s linear infinite;
-  }
-
-  .cloud-2 {
-    top: 30%;
-    right: -15%;
+  /* --- Cloud Styles --- */
+  .pixel-cloud {
     font-size: 8rem;
-    opacity: 0.25;
-    animation: driftLeft 50s linear infinite;
-  }
-
-  .cloud-3 {
-    bottom: 50%;
-    left: 20%;
-    font-size: 7rem;
-    opacity: 0.2;
-    animation: driftRight 45s linear infinite 10s;
-  }
-
-  .cloud-4 {
-    top: 60%;
-    right: 10%;
-    font-size: 6rem;
-    opacity: 0.18;
-    animation: driftLeft 55s linear infinite 15s;
-  }
-
-  .cloud-5 {
-    top: 45%;
-    left: 5%;
-    font-size: 6.5rem;
-    opacity: 0.22;
-    animation: driftRight 48s linear infinite 20s;
-  }
-
-  /* Spirit Dust */
-  .spirit-dust {
-    position: absolute;
-    font-size: 1.25rem;
-    opacity: 0;
-    animation: spiritDust 10s linear infinite;
-  }
-
-  /* Content */
-  .content-wrapper {
-    position: relative;
-    z-index: 20;
-    text-align: center;
-    padding: 0 1.5rem;
-  }
-
-  /* Badge */
-  .badge-wrapper {
-    display: inline-block;
-    margin-bottom: 2.5rem;
-  }
-
-  .badge {
-    position: relative;
-    background: var(--color-cream);
-    border: 3px solid var(--color-forest);
-    padding: 0.5rem 1.5rem;
-    box-shadow: 4px 4px 0 0 var(--color-brown);
-    transition: all 0.3s ease;
-  }
-
-  .badge-wrapper:hover .badge {
-    transform: translate(1px, 1px);
-    box-shadow: none;
-  }
-
-  .badge-text {
-    font-family: "VT323", monospace;
-    color: var(--color-sage);
-    letter-spacing: 0.3em;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  /* Title */
-  .title-wrapper {
-    position: relative;
-    margin-bottom: 2.5rem;
-  }
-
-  .main-title {
-    font-family: "VT323", monospace;
-    font-size: 6rem;
-    color: var(--color-dark);
-    line-height: 0.85;
-    letter-spacing: -0.05em;
-    text-transform: uppercase;
+    filter: sepia(0.3) hue-rotate(180deg) opacity(0.8);
     user-select: none;
-    -webkit-text-stroke: 2px var(--color-dark);
-    paint-order: stroke fill;
+    will-change: transform;
   }
 
-  @media (min-width: 768px) {
-    .main-title {
-      font-size: 10rem;
-    }
-  }
+  /* --- Complex Animations --- */
 
-  .title-line {
-    display: block;
-    filter: drop-shadow(6px 6px 0 var(--color-cream));
-  }
-
-  .subtitle {
-    color: var(--color-sage);
-    font-style: italic;
-  }
-
-  .butterfly {
-    position: absolute;
-    top: -2.5rem;
-    right: -1rem;
-    font-size: 3rem;
-    animation: float 4s ease-in-out infinite;
-  }
-
-  /* Description */
-  .description-wrapper {
-    max-width: 36rem;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .description {
-    font-family: "VT323", monospace;
-    font-size: 1.5rem;
-    color: rgba(93, 64, 55, 0.8);
-    line-height: 1.375;
-    text-transform: uppercase;
-    letter-spacing: -0.025em;
-  }
-
-  .highlight {
-    background: rgba(96, 108, 56, 0.1);
-    padding: 0 0.5rem;
-    font-style: italic;
-    color: var(--color-sage);
-  }
-
-  /* CTA Section */
-  .cta-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .cta-button {
-    position: relative;
-    background: var(--color-dark);
-    border: 4px solid var(--color-forest);
-    padding: 1.25rem 3rem;
-    box-shadow: 8px 8px 0 0 var(--color-brown);
-    transition: all 0.3s ease;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .cta-button:hover {
-    box-shadow: none;
-    transform: translate(1px, 1px);
-  }
-
-  .cta-button:active {
-    transform: scale(0.95);
-  }
-
-  .cta-content {
-    position: relative;
-    z-index: 10;
-    font-family: "VT323", monospace;
-    font-size: 1.875rem;
-    color: var(--color-bg-light);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .cta-overlay {
-    position: absolute;
-    inset: 0;
-    background: var(--color-sage);
-    transform: translateX(-100%);
-    transition: transform 0.5s ease;
-  }
-
-  .cta-button:hover .cta-overlay {
-    transform: translateX(0);
-  }
-
-  /* Mouse Hint */
-  .mouse-hint {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: rgba(188, 108, 37, 0.6);
-    font-family: "VT323", monospace;
-    font-size: 1.25rem;
-    text-transform: uppercase;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  /* Footer Landscape */
-  .footer-landscape {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    z-index: 30;
-    pointer-events: none;
-  }
-
-  .hills {
-    height: 12rem;
-    width: 100%;
-    background: rgba(217, 228, 221, 0.6);
-    clip-path: polygon(0 100%, 0 45%, 15% 30%, 35% 55%, 55% 20%, 75% 50%, 90% 15%, 100% 40%, 100% 100%);
-    transition: transform 0.3s ease;
-  }
-
-  .ground {
-    position: relative;
-    height: 7rem;
-    background: linear-gradient(to top, var(--color-sage), #7a8a4e);
-    border-top: 6px solid var(--color-dark);
-  }
-
-  .ground-pattern {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(var(--color-dark) 2px, transparent 2px);
-    background-size: 32px 32px;
-    opacity: 0.05;
-  }
-
-  /* Grass */
-  .grass-container {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-
-  .grass {
-    position: absolute;
-    bottom: 0;
-    font-size: 1.875rem;
-    opacity: 0.7;
-    animation: swayGrass 15s ease-in-out infinite;
-  }
-
-  /* Mushrooms */
-  .mushroom-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-    max-width: 64rem;
-    margin: 0 auto;
-    opacity: 0.6;
-    position: relative;
-    z-index: 10;
-  }
-
-  .mushroom {
-    font-size: 1.5rem;
-    animation: bounce 1s ease-in-out infinite;
-  }
-
-  /* Texture Overlays */
-  .texture-overlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  .texture-paper {
-    mix-blend-mode: multiply;
-    opacity: 0.2;
-    background-image: url("https://www.transparenttextures.com/patterns/p6.png");
-  }
-
-  .texture-dots {
-    opacity: 0.1;
-    background-image: radial-gradient(#000 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  /* Animations */
-  @keyframes driftRight {
+  /* 1. Kupu-kupu terbang meliuk (Path) */
+  @keyframes flyPath {
     0% {
-      transform: translateX(-100vw);
+      transform: translate(0, 0) rotate(0deg);
     }
-    100% {
-      transform: translateX(100vw);
-    }
-  }
-
-  @keyframes driftLeft {
-    0% {
-      transform: translateX(100vw);
-    }
-    100% {
-      transform: translateX(-100vw);
-    }
-  }
-
-  @keyframes floatSlow {
-    0%,
-    100% {
-      transform: translate(0, 0);
+    25% {
+      transform: translate(60px, -40px) rotate(10deg);
     }
     50% {
-      transform: translate(50px, -20px);
+      transform: translate(20px, -80px) rotate(-5deg);
     }
-  }
-
-  @keyframes floatMedium {
-    0%,
+    75% {
+      transform: translate(-40px, -30px) rotate(-15deg);
+    }
     100% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(-40px, 30px);
+      transform: translate(0, 0) rotate(0deg);
     }
   }
 
-  @keyframes floatFast {
-    0%,
-    100% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(60px, -15px);
-    }
-  }
-
-  @keyframes spiritDust {
+  @keyframes flyPathReverse {
     0% {
-      transform: translateY(100vh) translateX(0) scale(0.5);
-      opacity: 0;
+      transform: translate(0, 0) rotate(0deg) scaleX(-1);
     }
-    10% {
-      opacity: 0.8;
+    33% {
+      transform: translate(-50px, -30px) rotate(-10deg) scaleX(-1);
     }
-    80% {
-      opacity: 0.8;
+    66% {
+      transform: translate(30px, -60px) rotate(5deg) scaleX(-1);
     }
     100% {
-      transform: translateY(-10vh) translateX(50px) scale(1);
-      opacity: 0;
+      transform: translate(0, 0) rotate(0deg) scaleX(-1);
     }
   }
 
+  .animate-fly-path {
+    animation: flyPath 12s ease-in-out infinite;
+  }
+  .animate-fly-path-reverse {
+    animation: flyPathReverse 15s ease-in-out infinite;
+  }
+
+  /* Gerakan sayap kupu-kupu */
+  @keyframes flutter {
+    0%,
+    100% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(0.8);
+    }
+  }
+  .animate-flutter {
+    animation: flutter 0.2s linear infinite;
+  }
+
+  /* 2. Rumput Bergoyang (Wind) */
   @keyframes swayGrass {
     0%,
     100% {
-      transform: rotateZ(0deg) scaleY(1);
-    }
-    25% {
-      transform: rotateZ(-3deg) scaleY(1.05);
+      transform: rotate(-6deg);
     }
     50% {
-      transform: rotateZ(0deg) scaleY(1);
-    }
-    75% {
-      transform: rotateZ(3deg) scaleY(1.05);
+      transform: rotate(8deg);
     }
   }
+  .animate-sway-grass {
+    will-change: transform;
+  } /* Performance optimization */
 
-  @keyframes float {
-    0%,
+  /* 3. Awan Berarak (Drift) */
+  @keyframes drift {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(20px);
+    }
     100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px);
+      transform: translateX(0);
     }
   }
+  .animate-drift-slow {
+    animation: drift 20s ease-in-out infinite;
+  }
+  .animate-drift-medium {
+    animation: drift 15s ease-in-out infinite reverse;
+  }
+  .animate-drift-fast {
+    animation: drift 12s ease-in-out infinite;
+  }
 
-  @keyframes pulse {
-    0%,
+  /* 4. Partikel Roh (Float) */
+  @keyframes floatParticle {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.6;
+    }
+    80% {
+      opacity: 0.6;
+    }
     100% {
-      opacity: inherit;
-    }
-    50% {
-      opacity: calc(inherit * 0.7);
+      transform: translateY(-100px) scale(0);
+      opacity: 0;
     }
   }
-
-  @keyframes bounce {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+  .animate-float-particle {
+    animation-name: floatParticle;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 
-  .animate-spin-slow {
-    animation: spin 8s linear infinite;
-  }
-
+  /* 5. Utility Animations */
   @keyframes spin {
     from {
       transform: rotate(0deg);
@@ -604,10 +276,32 @@
       transform: rotate(360deg);
     }
   }
+  .animate-spin-slow {
+    animation: spin 60s linear infinite;
+  }
 
-  /* Performance Optimization */
-  div,
-  span {
-    will-change: transform, opacity;
+  @keyframes shimmer {
+    from {
+      left: -100%;
+    }
+    to {
+      left: 200%;
+    }
+  }
+  .animate-shimmer {
+    animation: shimmer 4s infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
   }
 </style>

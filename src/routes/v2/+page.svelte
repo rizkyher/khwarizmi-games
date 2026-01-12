@@ -6,18 +6,27 @@
   import DevShowcase from "$lib/components/ui/game/DeveloperShowcase.svelte";
   import About from "$lib/components/ui/game/About.svelte";
   import Footer from "$lib/components/ui/footer/Footer.svelte";
-  import { fade } from "svelte/transition";
+  import { ArrowUp } from "@lucide/svelte";
+  import { fade, fly } from "svelte/transition";
 
   // Svelte 5 State
   let activeCategory = $state("All Games");
   let scrollY = $state(0);
+  let innerHeight = $state(0);
+
+  // Logic untuk tombol Back to Top
+  let showBackToTop = $derived(scrollY > 500);
 
   function handleScroll() {
     scrollY = window.scrollY;
   }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 </script>
 
-<svelte:window onscroll={handleScroll} />
+<svelte:window onscroll={handleScroll} bind:innerHeight />
 
 <svelte:head>
   <title>GHP Studio | Spirit of Pixel</title>
@@ -28,246 +37,181 @@
       --ghibli-grass: #606c38;
       --ghibli-cream: #fefae0;
       --ghibli-wood: #bc6c25;
+      --ghibli-dark-wood: #283618;
       --ghibli-sand: #f1f0e8;
       --ghibli-sky: #a8dadc;
-      --ghibli-forest: #283618;
-      --ghibli-moss: #7a8a4e;
+      --ghibli-accent: #e76f51;
     }
 
     body {
       background-color: var(--ghibli-sand);
       font-family: "VT323", monospace;
-      image-rendering: pixelated;
       margin: 0;
       overflow-x: hidden;
+      /* Custom Cursor agar imersi terjaga */
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill:black;stroke:white;stroke-width:2px;"><path d="M5.5 3.21l10.85 10.87-4.57 1.05 4.09 7.15-2.6 1.49-4.11-7.14-3.32 3.09V3.21z"/></svg>'),
+        auto;
     }
 
-    /* Scrollbar Ghibli Style */
-    ::-webkit-scrollbar {
-      width: 14px;
-    }
-    ::-webkit-scrollbar-track {
-      background: linear-gradient(to bottom, var(--ghibli-cream), var(--ghibli-sand));
-      border-left: 2px solid var(--ghibli-forest);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(to bottom, var(--ghibli-grass), var(--ghibli-wood));
-      border: 3px solid var(--ghibli-cream);
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
+    ::selection {
       background: var(--ghibli-wood);
+      color: var(--ghibli-cream);
     }
   </style>
 </svelte:head>
 
 <div class="page-container">
-  <!-- Animated Sky Background -->
-  <div class="sky-atmosphere">
+  <div class="atmosphere-layer">
     <div class="sky-gradient"></div>
 
-    <!-- Soft Ghibli Clouds -->
-    {#each Array(8) as _, i}
-      <div
-        class="ghibli-cloud"
-        style="
-          left: {i * 18 - 15}%;
-          top: {5 + (i % 4) * 12}%;
-          animation-delay: {i * 4}s;
-          animation-duration: {50 + i * 8}s;
-          opacity: {0.3 + (i % 3) * 0.1};
-        "
-      >
-        <svg viewBox="0 0 200 60" class="cloud-shape">
-          <ellipse cx="35" cy="35" rx="35" ry="25" fill="white" opacity="0.8" />
-          <ellipse cx="80" cy="28" rx="48" ry="32" fill="white" opacity="0.9" />
-          <ellipse cx="130" cy="33" rx="42" ry="30" fill="white" opacity="0.85" />
-          <ellipse cx="168" cy="37" rx="32" ry="23" fill="white" opacity="0.8" />
-        </svg>
-      </div>
-    {/each}
-
-    <!-- Flying Birds (Ghibli Style) -->
     {#each Array(6) as _, i}
       <div
-        class="flying-bird"
+        class="cloud-wrapper"
         style="
-          left: {-20 + Math.random() * 120}%;
-          top: {8 + Math.random() * 35}%;
-          animation-delay: {i * 3.5}s;
-          animation-duration: {40 + i * 5}s;
+          top: {5 + i * 15}%; 
+          animation-duration: {40 + i * 10}s;
+          opacity: {0.4 + i * 0.1};
+          transform: scale({0.5 + i * 0.15});
         "
       >
-        <svg viewBox="0 0 50 25" width="35" height="18" class="bird-silhouette">
-          <path d="M5,12 Q12,7 20,12 T35,12 Q42,7 45,12" stroke="rgba(40, 54, 24, 0.4)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+        <div class="cloud-body"></div>
       </div>
     {/each}
 
-    <!-- Floating Petals & Leaves -->
-    {#each Array(25) as _, i}
+    {#each Array(20) as _, i}
       <div
-        class="nature-particle"
+        class="particle"
         style="
           left: {Math.random() * 100}%;
-          animation-delay: {Math.random() * 25}s;
-          animation-duration: {18 + Math.random() * 12}s;
-          font-size: {0.8 + Math.random() * 0.5}rem;
+          animation-delay: {Math.random() * 10}s;
+          animation-duration: {15 + Math.random() * 20}s;
         "
       >
-        {["🍃", "🌾", "🍂", "✨"][Math.floor(Math.random() * 4)]}
+        {["🍃", "🌾", "✨"][Math.floor(Math.random() * 3)]}
       </div>
     {/each}
-
-    <!-- Light Rays (Subtle) -->
-    <div class="light-rays-container">
-      {#each Array(4) as _, i}
-        <div
-          class="sun-ray"
-          style="
-            left: {15 + i * 25}%;
-            animation-delay: {i * 1.5}s;
-            opacity: {0.03 + i * 0.01};
-          "
-        ></div>
-      {/each}
-    </div>
   </div>
 
-  <!-- Watercolor Texture Overlay -->
-  <div class="watercolor-texture"></div>
-
-  <!-- Paper Grain -->
-  <div class="paper-grain"></div>
+  <div class="texture-overlay noise"></div>
+  <div class="texture-overlay vignette"></div>
+  <div class="texture-overlay warm-filter"></div>
 
   <Navbar bind:activeCategory />
 
-  <main class="main-content">
-    <section id="home">
+  <main class="relative z-10">
+    <section id="home" class="relative">
       <Hero />
+      <div class="paper-tear-divider"></div>
     </section>
 
-    <!-- Game Archive Section with Ghibli Touch -->
-    <section id="archive" class="archive-section">
-      <!-- Decorative Nature Elements -->
-      <div class="nature-sidebar">
-        {#each [{ emoji: "🍂", delay: 0, duration: 4 }, { emoji: "🍄", delay: 1, duration: 5 }, { emoji: "🪵", delay: 2, duration: 4.5 }, { emoji: "🌿", delay: 1.5, duration: 5.5 }, { emoji: "🦋", delay: 0.5, duration: 6 }] as item, i}
-          <span class="nature-icon" style="animation-delay: {item.delay}s; animation-duration: {item.duration}s;">
-            {item.emoji}
-          </span>
-        {/each}
+    <section id="archive" class="archive-section relative">
+      <div class="hidden xl:block absolute top-20 left-10 opacity-40 pointer-events-none">
+        <div class="flex flex-col gap-8 text-4xl text-[#606c38] animate-float-slow">
+          <span>🍄</span><span>🌿</span><span>🪵</span>
+        </div>
       </div>
 
-      <!-- Floating Grass Blades (Background) -->
-      <div class="grass-decoration">
-        {#each Array(12) as _, i}
-          <div
-            class="grass-blade"
-            style="
-              left: {i * 8.5}%;
-              animation-delay: {i * 0.3}s;
-              height: {60 + Math.random() * 40}px;
-            "
-          ></div>
-        {/each}
-      </div>
+      <div class="container mx-auto px-4 md:px-6 relative z-10 pt-20 pb-32">
+        <div class="flex flex-col items-center mb-16 relative">
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#bc6c25]/5 rounded-full blur-3xl -z-10"></div>
 
-      <div class="container mx-auto px-6 max-w-6xl relative z-10">
-        <!-- Archive Header with Ghibli Aesthetic -->
-        <div class="archive-header">
-          <!-- Watercolor Splash Behind -->
-          <div class="watercolor-splash"></div>
-
-          <div class="header-content">
-            <div class="header-badge">
-              <span class="badge-dot"></span>
-              Folder: Index_01
-              <span class="badge-sparkle">✨</span>
-            </div>
-
-            <h2 class="archive-title">
-              <span class="title-main">Game</span>
-              <span class="title-accent">Library</span>
-              <div class="title-underline"></div>
-            </h2>
-
-            <p class="filter-status">
-              <span class="status-icon">📂</span>
-              Filtering By: <span class="status-value">{activeCategory}</span>
-            </p>
+          <div class="border-y-2 border-[#283618] py-2 px-8 mb-4 bg-[#fefae0]/80 backdrop-blur-sm rotate-1 shadow-sm">
+            <span class="font-['VT323'] text-[#606c38] text-xl tracking-[0.3em] uppercase">The Collection</span>
           </div>
 
-          <div class="filter-container">
-            <GameFilter bind:selected={activeCategory} />
+          <h2 class="text-6xl md:text-8xl text-[#283618] mb-2 drop-shadow-sm relative">
+            <span class="relative z-10">GAME_ARCHIVE</span>
+            <span class="absolute -bottom-4 -right-8 text-3xl md:text-4xl text-[#bc6c25] -rotate-6 font-bold font-sans opacity-80" style="font-family: cursive;">Index 01</span>
+          </h2>
+
+          <div class="mt-8 relative group">
+            <div class="absolute inset-0 bg-[#283618] translate-x-1 translate-y-1 rounded-lg"></div>
+            <div class="relative bg-[#fefae0] border-2 border-[#283618] rounded-lg p-2 z-10">
+              <GameFilter bind:selected={activeCategory} />
+            </div>
           </div>
         </div>
 
-        <!-- Game List -->
-        <div class="game-list-wrapper" id="showcase">
+        <div id="showcase" class="min-h-[500px]">
           <GameList filter={activeCategory} />
         </div>
       </div>
 
-      <!-- Decorative Hills at Bottom -->
-      <div class="section-hills">
-        <svg viewBox="0 0 1440 120" class="hills-svg">
-          <path d="M0,80 Q240,40 480,60 T960,70 Q1200,50 1440,80 L1440,120 L0,120 Z" fill="rgba(122, 138, 78, 0.15)" />
-          <path d="M0,90 Q360,60 720,80 T1440,90 L1440,120 L0,120 Z" fill="rgba(96, 108, 56, 0.1)" />
+      <div class="absolute bottom-0 left-0 w-full leading-none overflow-hidden rotate-180">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-[calc(100%+1.3px)] h-[80px] md:h-[150px]">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-[#f1f0e8]"
+          ></path>
         </svg>
       </div>
     </section>
 
-    <!-- Developer Showcase Section -->
-    <section class="showcase-section">
-      <!-- Dandelion Seeds Floating -->
-      {#each Array.from({ length: 8 }) as _, i}
-        <div
-          class="dandelion-seed"
-          style="
-        left: {10 + i * 12}%;
-        animation-delay: {i * 2}s;
-      "
-        >
-          <svg viewBox="0 0 20 30" width="15" height="22">
-            <circle cx="10" cy="3" r="2" fill="rgba(188,108,37,0.3)" />
-            <line x1="10" y1="5" x2="10" y2="28" stroke="rgba(96,108,56,0.4)" stroke-width="0.5" />
-            <circle cx="10" cy="28" r="1.5" fill="rgba(188,108,37,0.4)" />
-          </svg>
-        </div>
+    <section class="bg-[#f1f0e8] pt-20 pb-32 relative overflow-hidden">
+      {#each Array(5) as _, i}
+        <div class="absolute opacity-30 animate-float-diagonal pointer-events-none text-[#bc6c25]" style="top: {Math.random() * 100}%; left: -5%; animation-delay: {i * 3}s; animation-duration: {15 + i * 2}s; font-size: 2rem;">ꕥ</div>
       {/each}
 
       <DevShowcase />
     </section>
-    <section id="about">
+
+    <section id="about" class="relative z-20">
       <About />
     </section>
   </main>
 
   <Footer />
 
-  <!-- Atmospheric Vignette -->
-  <div class="atmospheric-vignette"></div>
+  {#if showBackToTop}
+    <button transition:fly={{ y: 50, duration: 500 }} onclick={scrollToTop} class="fixed bottom-8 right-8 z-50 group" aria-label="Back to top">
+      <div class="relative w-14 h-14 bg-[#283618] rounded-full flex items-center justify-center shadow-lg border-2 border-[#fefae0] group-hover:scale-110 transition-transform duration-300">
+        <div class="absolute top-4 left-3 w-3 h-3 bg-white rounded-full"><div class="absolute top-1 right-1 w-1 h-1 bg-black rounded-full"></div></div>
+        <div class="absolute top-4 right-3 w-3 h-3 bg-white rounded-full"><div class="absolute top-1 left-1 w-1 h-1 bg-black rounded-full"></div></div>
 
-  <!-- Wind Effect Overlay -->
-  <div class="wind-overlay"></div>
+        <ArrowUp class="text-[#fefae0] mt-3 group-hover:-translate-y-1 transition-transform" size={20} strokeWidth={3} />
+      </div>
+      <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-bold text-[#283618] opacity-0 group-hover:opacity-100 transition-opacity">UP!</span>
+    </button>
+  {/if}
 </div>
 
 <style>
-  /* ===== BASE LAYOUT ===== */
-  .page-container {
-    position: relative;
-    min-height: 100vh;
-    color: #283618;
-    overflow: hidden;
+  /* ===== ANIMATIONS ===== */
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
   }
 
-  :global(::selection) {
-    background: #bc6c25;
-    color: white;
+  @keyframes float-diagonal {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.6;
+    }
+    80% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate(100vw, -50vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  .animate-float-diagonal {
+    animation-name: float-diagonal;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 
-  /* ===== SKY ATMOSPHERE ===== */
-  .sky-atmosphere {
+  /* ===== ATMOSPHERE ===== */
+  .atmosphere-layer {
     position: fixed;
     inset: 0;
     z-index: 0;
@@ -278,475 +222,124 @@
   .sky-gradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(168, 218, 220, 0.15) 0%, rgba(254, 250, 224, 0.1) 40%, rgba(241, 240, 232, 0) 70%);
+    background: linear-gradient(180deg, #e0fbfc 0%, #fefae0 60%, #faedcd 100%);
   }
 
-  /* ===== GHIBLI CLOUDS ===== */
-  .ghibli-cloud {
+  /* Cloud CSS Only Approach (Lebih performant dari SVG inline banyak) */
+  .cloud-wrapper {
     position: absolute;
-    width: 180px;
+    left: -20%;
+    animation-name: moveClouds;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .cloud-body {
+    width: 200px;
     height: 60px;
-    animation: cloudDrift linear infinite;
-    filter: blur(1px);
+    background: #fff;
+    border-radius: 200px;
+    position: relative;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
   }
-
-  .cloud-shape {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 2px 4px rgba(168, 218, 220, 0.2));
-  }
-
-  @keyframes cloudDrift {
-    0% {
-      transform: translateX(-10vw);
-    }
-    100% {
-      transform: translateX(110vw);
-    }
-  }
-
-  /* ===== FLYING BIRDS ===== */
-  .flying-bird {
+  .cloud-body::after,
+  .cloud-body::before {
+    content: "";
     position: absolute;
-    animation: birdFly linear infinite;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .cloud-body::after {
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    left: 30px;
+  }
+  .cloud-body::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 90px;
   }
 
-  .bird-silhouette {
-    animation: birdFlap 1.2s ease-in-out infinite;
-  }
-
-  @keyframes birdFly {
+  @keyframes moveClouds {
     0% {
-      transform: translateX(-50px) translateY(0);
-    }
-    50% {
-      transform: translateX(50vw) translateY(-30px);
+      transform: translateX(0);
     }
     100% {
-      transform: translateX(calc(100vw + 50px)) translateY(0);
+      transform: translateX(120vw);
     }
   }
 
-  @keyframes birdFlap {
-    0%,
-    100% {
-      transform: scaleY(1);
-    }
-    50% {
-      transform: scaleY(0.8);
-    }
-  }
-
-  /* ===== NATURE PARTICLES ===== */
-  .nature-particle {
+  .particle {
     position: absolute;
-    animation: floatDown linear infinite;
+    top: -10%;
     opacity: 0;
+    font-size: 1.2rem;
+    animation-name: fallParticles;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 
-  @keyframes floatDown {
+  @keyframes fallParticles {
     0% {
-      transform: translateY(-20px) translateX(0) rotate(0deg);
+      transform: translateY(0) rotate(0deg);
       opacity: 0;
     }
     10% {
-      opacity: 0.7;
+      opacity: 0.8;
     }
     90% {
-      opacity: 0.7;
+      opacity: 0.8;
     }
     100% {
-      transform: translateY(100vh) translateX(50px) rotate(360deg);
+      transform: translateY(110vh) rotate(360deg);
       opacity: 0;
-    }
-  }
-
-  /* ===== LIGHT RAYS ===== */
-  .light-rays-container {
-    position: absolute;
-    inset: 0;
-  }
-
-  .sun-ray {
-    position: absolute;
-    top: -50%;
-    width: 2px;
-    height: 150%;
-    background: linear-gradient(to bottom, transparent 0%, rgba(254, 250, 224, 0.8) 20%, transparent 40%);
-    animation: rayPulse 8s ease-in-out infinite;
-    transform-origin: top center;
-  }
-
-  @keyframes rayPulse {
-    0%,
-    100% {
-      opacity: 0.3;
-      transform: rotate(-2deg);
-    }
-    50% {
-      opacity: 0.6;
-      transform: rotate(2deg);
     }
   }
 
   /* ===== TEXTURES ===== */
-  .watercolor-texture {
+  .texture-overlay {
     position: fixed;
     inset: 0;
-    background-image: radial-gradient(ellipse at 20% 30%, rgba(168, 218, 220, 0.03) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(254, 250, 224, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, rgba(217, 228, 221, 0.02) 0%, transparent 60%);
     pointer-events: none;
-    z-index: 1;
+    z-index: 50; /* Di atas konten tapi di bawah modal */
   }
 
-  .paper-grain {
-    position: fixed;
-    inset: 0;
-    background-image: url("https://www.transparenttextures.com/patterns/p6.png");
-    opacity: 0.15;
-    pointer-events: none;
-    z-index: 1;
+  .noise {
+    background-image: url("https://www.transparenttextures.com/patterns/p6.png"); /* Noise halus */
+    opacity: 0.08;
     mix-blend-mode: multiply;
   }
 
-  /* ===== MAIN CONTENT ===== */
-  .main-content {
-    position: relative;
-    z-index: 10;
+  .vignette {
+    background: radial-gradient(circle, transparent 50%, rgba(40, 54, 24, 0.15) 100%);
   }
 
-  /* ===== ARCHIVE SECTION ===== */
+  .warm-filter {
+    background-color: #fca311;
+    opacity: 0.03;
+    mix-blend-mode: overlay; /* Efek Golden Hour */
+  }
+
+  /* ===== SECTION STYLES ===== */
   .archive-section {
-    position: relative;
-    padding: 6rem 0 8rem;
-    background: linear-gradient(to bottom, #fefae0 0%, #f8f6e8 50%, #f1f0e8 100%);
-    border-top: 4px solid #2d2d2d;
-    border-bottom: 4px solid #2d2d2d;
-    overflow: hidden;
+    background-color: #fefae0;
+    background-image: radial-gradient(#606c38 0.5px, transparent 0.5px);
+    background-size: 20px 20px; /* Dot Grid halus */
   }
 
-  /* ===== NATURE SIDEBAR ===== */
-  .nature-sidebar {
+  /* Paper Tear Effect (CSS Masking approach alternative or SVG border) */
+  .paper-tear-divider {
     position: absolute;
-    top: 5rem;
-    left: 1.5rem;
-    display: none;
-    flex-direction: column;
-    gap: 2rem;
-    opacity: 0.25;
-    z-index: 5;
-  }
-
-  @media (min-width: 1280px) {
-    .nature-sidebar {
-      display: flex;
-    }
-  }
-
-  .nature-icon {
-    font-size: 3rem;
-    animation: gentleFloat ease-in-out infinite;
-    filter: drop-shadow(0 2px 4px rgba(96, 108, 56, 0.1));
-  }
-
-  @keyframes gentleFloat {
-    0%,
-    100% {
-      transform: translateY(0) rotate(-5deg);
-    }
-    50% {
-      transform: translateY(-15px) rotate(5deg);
-    }
-  }
-
-  /* ===== GRASS DECORATION ===== */
-  .grass-decoration {
-    position: absolute;
-    bottom: 0;
+    bottom: -1px;
     left: 0;
-    right: 0;
-    height: 100px;
-    pointer-events: none;
-    opacity: 0.15;
-    z-index: 1;
-  }
-
-  .grass-blade {
-    position: absolute;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(to top, #606c38, transparent);
-    transform-origin: bottom center;
-    animation: grassSway ease-in-out infinite;
-  }
-
-  @keyframes grassSway {
-    0%,
-    100% {
-      transform: rotate(-3deg);
-    }
-    50% {
-      transform: rotate(3deg);
-    }
-  }
-
-  /* ===== ARCHIVE HEADER ===== */
-  .archive-header {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    margin-bottom: 5rem;
-    padding: 3rem;
-    background: linear-gradient(135deg, #fdf6e3 0%, #fefae0 100%);
-    border: 4px solid #2d2d2d;
-    box-shadow:
-      12px 12px 0 rgba(188, 108, 37, 0.4),
-      12px 12px 0 0 #bc6c25;
-    border-radius: 2px;
-  }
-
-  @media (min-width: 768px) {
-    .archive-header {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
-  /* Watercolor Splash Behind Header */
-  .watercolor-splash {
-    position: absolute;
-    inset: -20px;
-    background: radial-gradient(ellipse at 30% 40%, rgba(168, 218, 220, 0.1) 0%, transparent 60%);
-    filter: blur(30px);
-    z-index: -1;
-  }
-
-  .header-content {
-    flex: 1;
-    text-align: center;
-  }
-
-  @media (min-width: 768px) {
-    .header-content {
-      text-align: left;
-    }
-  }
-
-  .header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #606c38;
-    color: #fefae0;
-    padding: 0.5rem 1.25rem;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    border-radius: 2px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 8px rgba(40, 54, 24, 0.2);
-  }
-
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    background: #fefae0;
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  .badge-sparkle {
-    animation: sparkle 3s ease-in-out infinite;
-  }
-
-  @keyframes sparkle {
-    0%,
-    100% {
-      opacity: 0.5;
-      transform: scale(0.8);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.2);
-    }
-  }
-
-  /* ===== ARCHIVE TITLE ===== */
-  .archive-title {
-    position: relative;
-    font-size: 4rem;
-    font-weight: normal;
-    text-transform: uppercase;
-    line-height: 0.9;
-    margin-bottom: 1rem;
-    display: inline-block;
-  }
-
-  @media (min-width: 768px) {
-    .archive-title {
-      font-size: 5rem;
-    }
-  }
-
-  .title-main {
-    display: block;
-    color: #2d2d2d;
-    text-shadow:
-      3px 3px 0 rgba(254, 250, 224, 0.5),
-      -1px -1px 0 rgba(96, 108, 56, 0.1);
-  }
-
-  .title-accent {
-    display: block;
-    color: #bc6c25;
-    font-style: italic;
-    position: relative;
-  }
-
-  .title-underline {
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: repeating-linear-gradient(90deg, #bc6c25 0px, #bc6c25 15px, transparent 15px, transparent 25px);
-    opacity: 0.6;
-  }
-
-  /* ===== FILTER STATUS ===== */
-  .filter-status {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 1.5rem;
-    color: #606c38;
-    opacity: 0.85;
-    text-transform: uppercase;
-  }
-
-  @media (min-width: 768px) {
-    .filter-status {
-      justify-content: flex-start;
-    }
-  }
-
-  .status-icon {
-    font-size: 1.25rem;
-  }
-
-  .status-value {
-    color: #bc6c25;
-    font-weight: bold;
-  }
-
-  .filter-container {
-    margin-top: 2rem;
-  }
-
-  @media (min-width: 768px) {
-    .filter-container {
-      margin-top: 0;
-    }
-  }
-
-  /* ===== GAME LIST ===== */
-  .game-list-wrapper {
-    position: relative;
-    min-height: 400px;
-  }
-
-  /* ===== SECTION HILLS ===== */
-  .section-hills {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    pointer-events: none;
-    opacity: 0.6;
-  }
-
-  .hills-svg {
     width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  /* ===== SHOWCASE SECTION ===== */
-  .showcase-section {
-    position: relative;
-    padding: 5rem 0;
-    background: linear-gradient(to bottom, #fefae0 0%, #f1f0e8 100%);
-    overflow: hidden;
-  }
-
-  /* ===== DANDELION SEEDS ===== */
-  .dandelion-seed {
-    position: absolute;
-    animation: seedFloat 20s ease-in-out infinite;
-    opacity: 0;
-  }
-
-  @keyframes seedFloat {
-    0% {
-      transform: translateY(-20px) translateX(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 0.6;
-    }
-    90% {
-      opacity: 0.6;
-    }
-    100% {
-      transform: translateY(100vh) translateX(30px) rotate(180deg);
-      opacity: 0;
-    }
-  }
-
-  /* ===== ATMOSPHERIC EFFECTS ===== */
-  .atmospheric-vignette {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    box-shadow: inset 0 0 200px rgba(96, 108, 56, 0.12);
-    z-index: 100;
-  }
-
-  .wind-overlay {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(168, 218, 220, 0.03) 50%, transparent 100%);
-    animation: windBlow 15s linear infinite;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  @keyframes windBlow {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
-  /* ===== MISC ANIMATIONS ===== */
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  /* ===== PIXEL ART PRESERVATION ===== */
-  :global(img) {
-    image-rendering: pixelated;
+    height: 40px;
+    background-color: #fefae0; /* Warna section berikutnya */
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 L0 0 L10 10 L20 0 L30 10 L40 0 L50 10 L60 0 L70 10 L80 0 L90 10 L100 0 L100 20 Z' fill='black'/%3E%3C/svg%3E");
+    mask-repeat: repeat-x;
+    mask-size: 40px 100%;
+    z-index: 5;
   }
 </style>
