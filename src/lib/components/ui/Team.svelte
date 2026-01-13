@@ -59,35 +59,46 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+    <div
+  class="flex gap-12 overflow-x-auto snap-x snap-mandatory
+         pb-8 px-2
+         touch-pan-x scroll-smooth hide-scrollbar"
+>
+
         {#each members as member}
-            <button 
-                onclick={() => openModal(member)}
-                class="group text-left bg-white border-4 border-black p-6 shadow-[8px_8px_0_0_#0C7779] 
-                       hover:shadow-[12px_12px_0_0_#000] hover:-translate-x-1 hover:-translate-y-1 
-                       transition-all duration-300 outline-none relative overflow-hidden"
-            >
-                <div class="w-full aspect-square border-4 border-black mb-6 relative overflow-hidden flex items-center justify-center bg-slate-100 shadow-[4px_4px_0_0_rgba(0,0,0,0.2)]">
-                    
-                    {#if member.avatar && !member.avatar.endsWith('0.jpg')}
-                         <img
-                            src={member.avatar}
-                            alt={member.name}
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                            loading="lazy"
-                        />
-                    {:else}
-                        <div class="w-full h-full bg-[#0C7779] flex items-center justify-center text-white text-6xl">
-                            {member.name.charAt(0)}
-                        </div>
-                    {/if}
+<button 
+    onclick={() => openModal(member)}
+    class="group shrink-0 snap-center
+           w-[320px]
+           text-left bg-[#0C7779] border-4 border-black p-6
+           shadow-[10px_10px_0_0_#000]
+           hover:shadow-[12px_12px_0_0_#F3E5AB]
+           hover:-translate-x-1 hover:-translate-y-1
+           transition-all duration-300 outline-none
+           hover-wiggle"
+>
+
+                <div class="w-full aspect-square border-4 border-black mb-6 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0_0_#000] bg-white">
+    
+    <img
+        src={member.avatar}
+        alt={member.name}
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        loading="lazy"
+    />
 
                     <div class="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:4px_4px]"></div>
                 </div>
 
-                <div class="text-center relative z-10">
-                    <h3 class="text-2xl md:text-3xl font-bold uppercase text-black leading-tight group-hover:text-[#0C7779] transition-colors"
-                        style="text-shadow: 2px 2px 0px #eee;">
+
+    <!-- optional blush overlay (ganti mata pixel) -->
+
+</div>
+
+
+                <div class="text-center">
+                    <h3 class="text-4xl font-black uppercase text-white leading-none group-hover:text-[#F3E5AB] transition-colors">
+
                         {member.name}
                     </h3>
                     
