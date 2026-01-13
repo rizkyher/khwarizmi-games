@@ -3,6 +3,7 @@
         name: string;
         role: string;
         avatarColor: string;
+        avatar: string; // Tambahkan avatar string
         bio: string;
         longBio?: string;
     }
@@ -23,7 +24,6 @@
         if (typeof document !== 'undefined') document.body.style.overflow = 'auto';
     }
 
-    // Handler untuk menutup modal dengan keyboard (Escape)
     function handleKeydown(event: KeyboardEvent) {
         if (event.key === 'Escape' && isModalOpen) {
             closeModal();
@@ -34,17 +34,20 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <svelte:head>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 </svelte:head>
 
-<section id="team" class="py-24 max-w-6xl mx-auto px-6 font-pixel">
+<section id="team" class="py-24 max-w-6xl mx-auto px-6 font-silkscreen">
+    
     <div class="text-center mb-24">
         <div class="relative inline-block group">
-            <h2 class="section-title text-7xl font-black text-white uppercase tracking-tighter relative z-10 
-                       bg-[#0C7779] border-4 border-black px-8 py-2 shadow-[8px_8px_0_0_#000]
-                       group-hover:-translate-y-2 group-hover:shadow-[12px_12px_0_0_#F3E5AB] 
-                       active:scale-90 transition-all duration-200 cursor-default">
+            <h2 class="section-title text-5xl md:text-7xl font-bold text-white uppercase tracking-wider relative z-10 
+                       bg-[#0C7779] border-4 border-black px-8 py-4 shadow-[8px_8px_0_0_#000]
+                       group-hover:-translate-y-2 group-hover:shadow-[12px_12px_0_0_#FCD34D] 
+                       transition-all duration-200 cursor-default"
+                style="text-shadow: 4px 4px 0px #000;">
                 The Creators
+                
                 <div class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100">
                     <div class="pixel-dust d1"></div>
                     <div class="pixel-dust d2"></div>
@@ -60,39 +63,39 @@
         {#each members as member}
             <button 
                 onclick={() => openModal(member)}
-                class="group text-left bg-[#0C7779] border-4 border-black p-6 shadow-[10px_10px_0_0_#000] hover:shadow-[12px_12px_0_0_#F3E5AB] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 outline-none"
+                class="group text-left bg-white border-4 border-black p-6 shadow-[8px_8px_0_0_#0C7779] 
+                       hover:shadow-[12px_12px_0_0_#000] hover:-translate-x-1 hover:-translate-y-1 
+                       transition-all duration-300 outline-none relative overflow-hidden"
             >
-                <div class="w-full aspect-square border-4 border-black mb-6 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0_0_#000] bg-white">
-    
-    <img
-        src={member.avatar}
-        alt={member.name}
-        class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        loading="lazy"
-    />
+                <div class="w-full aspect-square border-4 border-black mb-6 relative overflow-hidden flex items-center justify-center bg-slate-100 shadow-[4px_4px_0_0_rgba(0,0,0,0.2)]">
+                    
+                    {#if member.avatar && !member.avatar.endsWith('0.jpg')}
+                         <img
+                            src={member.avatar}
+                            alt={member.name}
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                            loading="lazy"
+                        />
+                    {:else}
+                        <div class="w-full h-full bg-[#0C7779] flex items-center justify-center text-white text-6xl">
+                            {member.name.charAt(0)}
+                        </div>
+                    {/if}
 
-    <!-- overlay pixel / texture -->
-    <div class="absolute inset-0 pointer-events-none opacity-20
-                bg-[radial-gradient(#000_2px,transparent_1px)]
-                [background-size:6px_6px]">
-    </div>
+                    <div class="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:4px_4px]"></div>
+                </div>
 
-    <!-- optional blush overlay (ganti mata pixel) -->
-    <div class="absolute bottom-10 flex justify-between w-24 opacity-50 pointer-events-none">
-        <div class="w-6 h-2 bg-rose-400"></div>
-        <div class="w-6 h-2 bg-rose-400"></div>
-    </div>
-</div>
-
-
-                <div class="text-center">
-                    <h3 class="text-4xl font-black uppercase text-white leading-none group-hover:text-[#F3E5AB] transition-colors">
+                <div class="text-center relative z-10">
+                    <h3 class="text-2xl md:text-3xl font-bold uppercase text-black leading-tight group-hover:text-[#0C7779] transition-colors"
+                        style="text-shadow: 2px 2px 0px #eee;">
                         {member.name}
                     </h3>
-                    <p class="mt-3 bg-[#F3E5AB] text-[#0C7779] font-bold text-lg tracking-widest uppercase inline-block px-3 py-0.5 border-2 border-black shadow-[3px_3px_0_0_#000]">
+                    
+                    <div class="mt-3 inline-block bg-black text-[#FCD34D] font-bold text-sm md:text-base tracking-widest uppercase px-3 py-1 border-2 border-black shadow-[3px_3px_0_0_#0C7779]">
                         {member.role}
-                    </p>
-                    <p class="text-teal-50 text-xl leading-tight italic pt-5 border-t-2 border-white/20 mt-4">
+                    </div>
+                    
+                    <p class="text-slate-600 text-sm md:text-base font-sans font-bold leading-tight italic pt-4 mt-4 border-t-2 border-black/10">
                         "{member.bio}"
                     </p>
                 </div>
@@ -103,7 +106,7 @@
 
 {#if isModalOpen && selectedMember}
     <div 
-        class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/90 backdrop-blur-sm font-silkscreen"
         onclick={closeModal}
         onkeydown={(e) => e.key === 'Enter' && closeModal()}
         role="button"
@@ -111,7 +114,7 @@
         aria-label="Close modal overlay"
     >
         <div 
-            class="bg-white border-8 border-black w-full max-w-2xl shadow-[16px_16px_0_0_#0C7779] animate-modal-pop relative"
+            class="bg-[#E0F2FE] border-[6px] border-black w-full max-w-3xl shadow-[16px_16px_0_0_#0C7779] animate-modal-pop relative overflow-hidden"
             onclick={(e) => e.stopPropagation()}
             onkeydown={(e) => e.stopPropagation()}
             role="dialog"
@@ -120,42 +123,51 @@
         >
             <button 
                 onclick={closeModal}
-                class="absolute -top-6 -right-6 w-12 h-12 bg-red-500 border-4 border-black text-white font-black text-2xl shadow-[4px_4px_0_0_#000] hover:scale-110 active:scale-90 transition-transform z-50"
+                class="absolute top-4 right-4 w-10 h-10 bg-red-500 border-4 border-black text-white font-bold text-xl flex items-center justify-center shadow-[4px_4px_0_0_#000] hover:scale-110 active:scale-95 transition-transform z-50 hover:bg-red-600"
                 aria-label="Close modal"
             >
                 X
             </button>
 
-            <div class="p-8 md:p-12 flex flex-col md:flex-row gap-8">
-                <div class="w-full md:w-1/3 aspect-square border-4 border-black relative overflow-hidden bg-white shadow-[6px_6px_0_0_#000]">
-    
-    <img
-        src={selectedMember.avatar}
-        alt={selectedMember.name}
-        class="absolute inset-0 w-full h-full object-cover"
-        loading="lazy"
-    />
+            <div class="absolute inset-0 opacity-10 pointer-events-none" 
+                 style="background-image: linear-gradient(#0C7779 1px, transparent 1px), linear-gradient(90deg, #0C7779 1px, transparent 1px); background-size: 20px 20px;">
+            </div>
 
-    <!-- overlay pixel optional -->
-    <div class="absolute inset-0 pointer-events-none opacity-20
-                bg-[radial-gradient(#000_2px,transparent_1px)]
-                [background-size:6px_6px]">
-    </div>
-</div>
+            <div class="p-8 md:p-10 flex flex-col md:flex-row gap-8 relative z-10">
+                
+                <div class="w-full md:w-5/12 aspect-square border-4 border-black relative overflow-hidden bg-white shadow-[8px_8px_0_0_rgba(0,0,0,0.8)] rotate-[-2deg]">
+                    {#if selectedMember.avatar && !selectedMember.avatar.endsWith('0.jpg')}
+                        <img
+                            src={selectedMember.avatar}
+                            alt={selectedMember.name}
+                            class="absolute inset-0 w-full h-full object-cover"
+                        />
+                    {:else}
+                         <div class="w-full h-full bg-[#0C7779] flex items-center justify-center text-white text-8xl">
+                            {selectedMember.name.charAt(0)}
+                        </div>
+                    {/if}
+                    <div class="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:6px_6px]"></div>
+                </div>
 
-
-                <div class="flex-1 space-y-4">
-                    <h2 class="text-5xl font-black uppercase text-[#0C7779]">{selectedMember.name}</h2>
-                    <div class="bg-black text-[#F3E5AB] inline-block px-4 py-1 text-xl font-bold uppercase tracking-wider">
-                        {selectedMember.role}
+                <div class="flex-1 space-y-5 text-left flex flex-col justify-center">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold uppercase text-[#0C7779] leading-none" style="text-shadow: 3px 3px 0px #000;">
+                            {selectedMember.name}
+                        </h2>
+                        <div class="mt-2 inline-block bg-[#FCD34D] border-2 border-black px-3 py-1 text-sm font-bold uppercase tracking-widest text-black shadow-[3px_3px_0_0_#000]">
+                            {selectedMember.role}
+                        </div>
                     </div>
-                    <div class="h-1 w-full bg-slate-200"></div>
-                    <p class="text-2xl text-slate-700 leading-tight italic">
+                    
+                    <div class="h-1 w-full bg-black/20 rounded-full"></div>
+                    
+                    <p class="text-lg md:text-xl text-slate-800 leading-snug font-sans font-bold">
                         "{selectedMember.longBio || selectedMember.bio}"
                     </p>
                     
-                    <button class="mt-4 px-6 py-2 bg-[#0C7779] text-white border-2 border-black font-bold uppercase shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                        Follow Work
+                    <button class="self-start mt-4 px-6 py-3 bg-black text-white border-4 border-transparent font-bold uppercase tracking-wider shadow-[4px_4px_0_0_#0C7779] hover:bg-[#0C7779] hover:text-white hover:border-black hover:shadow-[4px_4px_0_0_#000] hover:-translate-y-1 transition-all">
+                        View Portfolio →
                     </button>
                 </div>
             </div>
@@ -164,11 +176,12 @@
 {/if}
 
 <style>
-    .font-pixel { font-family: 'VT323', monospace; }
+    .font-silkscreen { font-family: 'Silkscreen', cursive; }
 
+    /* Pixel Dust Animation */
     .pixel-dust {
         position: absolute; width: 8px; height: 8px;
-        background: #F3E5AB; border: 2px solid black;
+        background: #FCD34D; border: 2px solid black;
     }
 
     .group:hover .d1 { animation: dust-float-1 0.6s infinite; }
@@ -181,16 +194,10 @@
     @keyframes dust-float-3 { 0% { transform: translate(0, 0); opacity: 1; } 100% { transform: translate(-60px, 40px) rotate(90deg); opacity: 0; } }
     @keyframes dust-float-4 { 0% { transform: translate(0, 0); opacity: 1; } 100% { transform: translate(70px, 50px) rotate(-90deg); opacity: 0; } }
 
-    @keyframes eyeBlink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
-    .animate-eye-blink { animation: eyeBlink 4s infinite; }
-
+    /* Modal Animation */
     @keyframes modalPop {
-        0% { transform: scale(0.5); opacity: 0; }
-        70% { transform: scale(1.05); }
-        100% { transform: scale(1); opacity: 1; }
+        0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+        100% { transform: scale(1) translateY(0); opacity: 1; }
     }
-    .animate-modal-pop { animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-
-    section { animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-modal-pop { animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 </style>

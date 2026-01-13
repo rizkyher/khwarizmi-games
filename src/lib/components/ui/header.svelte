@@ -6,7 +6,7 @@
 
     let { title, subtitle }: Props = $props();
 
-    // Partikel debu acak (Disederhanakan untuk performa mobile yang lebih baik)
+    // Partikel debu acak
     const particles = Array.from({ length: 12 }, (_, i) => ({
         id: i,
         top: Math.random() * 100 + '%',
@@ -29,30 +29,35 @@
         display: inline-block;
     }
 
-    /* Efek Hover Judul */
+    /* --- PERUBAHAN WARNA INTERAKSI DI SINI --- */
+    
+    /* 1. Efek Hover Judul (Menjadi Hijau #41B78E) */
     @media (hover: hover) {
         .pixel-font:hover {
-            color: #249E94;
+            color: #41B78E; /* Warna Hijau Baru */
             transform: scale(1.05) rotate(-1deg);
             text-shadow: 4px 4px 0px #000;
         }
 
+        /* 2. Efek Hover Garis Bawah (Menjadi Orange #F9BA72) */
         .pixel-font:hover + .underline-box {
-            background-color: #249E94;
+            background-color: #F9BA72; /* Warna Orange Baru */
             transform: translateY(5px);
             box-shadow: none; 
+            border-color: #000;
         }
         
+        /* 3. Efek Hover Partikel (Berubah jadi Hijau) */
         .header-container:hover .dust-particle {
-            background-color: #3ebfb4;
-            filter: brightness(1.2);
+            background-color: #41B78E;
+            filter: brightness(1.1);
         }
     }
 
-    /* Efek Debu */
+    /* 4. Efek Debu Default (Warna Orange #F9BA72 - Seperti serbuk emas) */
     .dust-particle {
         position: absolute;
-        background-color: #64748b;
+        background-color: #F9BA72; /* Warna Orange Baru */
         pointer-events: none;
         z-index: 1;
         animation: dustFloat var(--dur) ease-in-out infinite;
@@ -61,7 +66,7 @@
     /* KEYFRAMES */
     @keyframes dustFloat {
         0% { transform: translate(0, 0); opacity: 0; }
-        20% { opacity: 0.5; }
+        20% { opacity: 0.6; }
         50% { transform: translate(20px, -30px); }
         100% { transform: translate(40px, -60px); opacity: 0; }
     }
@@ -118,15 +123,15 @@
                 {title}
             </h1>
             
-            <div class="underline-box h-1.5 md:h-2 w-full bg-slate-400 border-[2px] md:border-[3px] border-black absolute -bottom-1 md:-bottom-2 left-0"></div>
+            <div class="underline-box h-1.5 md:h-2 w-full bg-[#41B78E] border-[2px] md:border-[3px] border-black absolute -bottom-1 md:-bottom-2 left-0"></div>
         </div>
     </div>
     
     {#if subtitle}
-        <p class="mt-6 md:mt-10 text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] md:tracking-[0.4em] opacity-0 animate-[fadeIn_1s_ease-out_forwards] [animation-delay:0.8s] px-4 leading-relaxed">
+        <p class="mt-6 md:mt-10 text-slate-600 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] md:tracking-[0.4em] opacity-0 animate-[fadeIn_1s_ease-out_forwards] [animation-delay:0.8s] px-4 leading-relaxed">
             {subtitle}
         </p>
     {/if}
 </header>
 
-<hr class="border-t-2 border-black/5 mx-auto w-3/4 md:w-1/2" />
+<hr class="border-t-2 border-[#F9BA72]/30 mx-auto w-3/4 md:w-1/2" />
