@@ -33,8 +33,8 @@
     },
     { 
         id: 2,
-        title: "Spirit Woods",
-        img: "/games/spirit-woods.jpg",
+        title: "Santri Bros",
+        img: "Santri.jpg",
         video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
         desc: "Petualangan puzzle santai di dalam hutan yang penuh dengan roh baik.",
         tags: ["Cozy", "Puzzle"]
@@ -42,23 +42,23 @@
     { 
         id: 3,
         title: "Sky Castle",
-        img: "/games/sky-castle.jpg",
+        img: "flappy.jpg",
         video: "https://assets.mixkit.co/videos/preview/mixkit-cartoon-character-running-in-a-forest-41485-large.mp4",
         desc: "Bangun kerajaanmu di atas awan dan lindungi dari serangan naga.",
         tags: ["Strategy", "Fantasy"]
     },
     { 
         id: 4,
-        title: "Totoro Run",
-        img: "/games/totoro-run.jpg",
+        title: "Car hijaiyah",
+        img: "Mobil.jpg",
         video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-of-a-person-running-in-the-rain-31936-large.mp4",
         desc: "Lari secepat mungkin untuk mengejar Bus Kucing sebelum hujan turun.",
         tags: ["Runner", "Ghibli"]
     },
     { 
         id: 5,
-        title: "Pixel Chef",
-        img: "/games/pixel-chef.jpg",
+        title: "Match 3 Hijaiyah",
+        img: "match.jpg",
         video: "https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-food-in-a-kitchen-pixel-art-41490-large.mp4",
         desc: "Masak makanan lezat untuk para petualang yang mampir ke kedaimu.",
         tags: ["Simulation"]
@@ -90,23 +90,41 @@
     // 4. Data Team
     let myTeam = $state([
     {
-        name: "Ucup Markucup",
-        role: "Lead Developer",
-        avatar: "0.jpg",
-        bio: "Spesialis Svelte dan sihir CSS modern."
-    },
-    {
-        name: "Kucai",
-        role: "Pixel Artist",
-        avatar: "/team/kucai.jpg",
-        bio: "Menggambar setiap piksel dengan penuh cinta."
-    },
-    {
-        name: "Bujas",
-        role: "Game Designer",
-        avatar: "/team/bujas.jpg",
+        name: "Bayu",
+        role: "Game Developer",
+        avatar: "bayu.png",
         bio: "Pakar menciptakan atmosfer menenangkan."
-    }
+    },
+     {
+        name: "Zain",
+        role: "Game Developer",
+        avatar: "zain.png",
+        bio: "Pakar menciptakan atmosfer menenangkan."
+    },
+     {
+        name: "Arif",
+        role: "Game Designer",
+        avatar: "arif.png",
+        bio: "Pakar menciptakan atmosfer menenangkan."
+    },
+     {
+        name: "Zaidan",
+        role: "Game Develop",
+        avatar: "zaidan.png",
+        bio: "Pakar menciptakan atmosfer menenangkan."
+    },
+     {
+        name: "Farhan",
+        role: "Game Develop",
+        avatar: "farhan.jpg",
+        bio: "Pakar menciptakan atmosfer menenangkan."
+    },
+     {
+        name: "farrel",
+        role: "Lead progammer",
+        avatar: "farrel.jpg",
+        bio: "Pakar menciptakan atmosfer menenangkan."
+    },
 ]);
 
 </script>

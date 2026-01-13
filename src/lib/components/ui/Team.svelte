@@ -56,12 +56,25 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+    <div
+  class="flex gap-12 overflow-x-auto snap-x snap-mandatory
+         pb-8 px-2
+         touch-pan-x scroll-smooth hide-scrollbar"
+>
+
         {#each members as member}
-            <button 
-                onclick={() => openModal(member)}
-                class="group text-left bg-[#0C7779] border-4 border-black p-6 shadow-[10px_10px_0_0_#000] hover:shadow-[12px_12px_0_0_#F3E5AB] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 outline-none"
-            >
+<button 
+    onclick={() => openModal(member)}
+    class="group shrink-0 snap-center
+           w-[320px]
+           text-left bg-[#0C7779] border-4 border-black p-6
+           shadow-[10px_10px_0_0_#000]
+           hover:shadow-[12px_12px_0_0_#F3E5AB]
+           hover:-translate-x-1 hover:-translate-y-1
+           transition-all duration-300 outline-none
+           hover-wiggle"
+>
+
                 <div class="w-full aspect-square border-4 border-black mb-6 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0_0_#000] bg-white">
     
     <img
@@ -78,10 +91,7 @@
     </div>
 
     <!-- optional blush overlay (ganti mata pixel) -->
-    <div class="absolute bottom-10 flex justify-between w-24 opacity-50 pointer-events-none">
-        <div class="w-6 h-2 bg-rose-400"></div>
-        <div class="w-6 h-2 bg-rose-400"></div>
-    </div>
+
 </div>
 
 
