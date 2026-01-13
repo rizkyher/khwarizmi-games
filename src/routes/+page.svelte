@@ -2,132 +2,137 @@
     import { fade, fly } from 'svelte/transition';
     import { cubicIn } from 'svelte/easing';
 
-    // 1. Import Komponen
+    // --- 1. Import Komponen (Pastikan nama file sesuai Besar/Kecilnya) ---
     import Navbar from '$lib/components/ui/Navbar.svelte';
     import Clouds from '$lib/components/ui/Clouds.svelte';
-    import Header from '$lib/components/ui/header.svelte';
+    import Header from '$lib/components/ui/Header.svelte'; // Diperbaiki: header -> Header
     import GameCard from '$lib/components/ui/GameCard.svelte';
     import About from '$lib/components/ui/About.svelte';
     import Team from '$lib/components/ui/Team.svelte';
     import Footer from '$lib/components/ui/Footer.svelte';
-    
-    // Pastikan nama file import sesuai (LoadingsScreen atau LoadingScreen)
-    import LoadingScreen from '$lib/components/ui/LoadingsScreen.svelte';    
+    import LoadingScreen from '$lib/components/ui/LoadingsScreen.svelte'; 
 
-    // --- LOGIKA LOADING SCREEN ---
+    // --- 2. Definisi Tipe Data (TypeScript) ---
+    interface Game {
+        id: number;
+        title: string;
+        image: string;
+        video: string;
+        desc: string;
+        tags: string[];
+    }
+
+    interface TeamMember {
+        name: string;
+        role: string;
+        avatar: string;
+        avatarColor: string;
+        bio: string;
+    }
+
+    // --- 3. Logika State (Svelte 5 Runes) ---
     let isLoading = $state(true);
 
     function handleLoadingComplete() {
         isLoading = false;
     }
 
-    // 2. Data Game
-   let myGames = $state([
-    { 
-        id: 1,
-        title: "Writing Hijaiyah",
-        img: "writing.jpg",
-        video: "Video Vario.mp4",
-        desc: "Belajar menulis huruf Hijaiyah dengan cara yang menyenangkan.",
-        tags: ["Action", "Sci-Fi"]
-    },
-    { 
-        id: 2,
-        title: "Santri Bros",
-        img: "Santri.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
-        desc: "Petualangan puzzle santai di dalam hutan yang penuh dengan roh baik.",
-        tags: ["Cozy", "Puzzle"]
-    },
-    { 
-        id: 3,
-        title: "Sky Castle",
-        img: "flappy.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-cartoon-character-running-in-a-forest-41485-large.mp4",
-        desc: "Bangun kerajaanmu di atas awan dan lindungi dari serangan naga.",
-        tags: ["Strategy", "Fantasy"]
-    },
-    { 
-        id: 4,
-        title: "Car hijaiyah",
-        img: "Mobil.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-of-a-person-running-in-the-rain-31936-large.mp4",
-        desc: "Lari secepat mungkin untuk mengejar Bus Kucing sebelum hujan turun.",
-        tags: ["Runner", "Ghibli"]
-    },
-    { 
-        id: 5,
-        title: "Match 3 Hijaiyah",
-        img: "match.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-food-in-a-kitchen-pixel-art-41490-large.mp4",
-        desc: "Masak makanan lezat untuk para petualang yang mampir ke kedaimu.",
-        tags: ["Simulation"]
-    },
-    { 
-        id: 6,
-        title: "Star Gazing",
-        img: "/games/star-gazing.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-pixel-art-style-clouds-31940-large.mp4",
-        desc: "Hubungkan rasi bintang untuk mengungkap cerita kuno di langit malam.",
-        tags: ["Educational"]
-    }
-]);
+    // Data Game
+    let myGames: Game[] = $state([
+        { 
+            id: 1, 
+            title: "Santri Bros", 
+            image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=60", 
+            // Pastikan file ini ada di folder /static/
+            video: "/Video Vario.mp4", 
+            desc: "Petualangan platformer klasik dengan sentuhan lokal santri.", 
+            tags: ["Action", "Platformer"] 
+        },
+        { 
+            id: 2, 
+            title: "Writing Hijaiyah", 
+            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&auto=format&fit=crop&q=60", 
+            video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+            desc: "Belajar menulis huruf hijaiyah dengan cara yang menenangkan dan interaktif.", 
+            tags: ["Educational", "Cozy"] 
+        },
+        { 
+            id: 3, 
+            title: "Flappy Hijaiyah", 
+            image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&auto=format&fit=crop&q=60", 
+            video: "https://assets.mixkit.co/videos/preview/mixkit-cartoon-character-running-in-a-forest-41485-large.mp4",
+            desc: "Terbang menghindari rintangan sambil mengumpulkan huruf hijaiyah yang tepat.", 
+            tags: ["Arcade", "Educational"] 
+        },
+        { 
+            id: 4, 
+            title: "Catching Hijaiyah", 
+            image: "https://images.unsplash.com/photo-1534234828563-025075d9e54d?w=600&auto=format&fit=crop&q=60", 
+            video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-of-a-person-running-in-the-rain-31936-large.mp4",
+            desc: "Tangkap huruf-huruf hijaiyah yang jatuh sebelum menyentuh tanah.", 
+            tags: ["Casual", "Speed"] 
+        },
+        { 
+            id: 5, 
+            title: "Car Hijaiyah Hunt", 
+            image: "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=600&auto=format&fit=crop&q=60", 
+            video: "https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-food-in-a-kitchen-pixel-art-41490-large.mp4",
+            desc: "Berkendara sambil berburu huruf hijaiyah di sepanjang jalanan kota.", 
+            tags: ["Racing", "Educational"] 
+        },
+        { 
+            id: 6, 
+            title: "Match 3 Hijaiyah", 
+            image: "https://images.unsplash.com/photo-1612152605347-f932c6f141d5?w=600&auto=format&fit=crop&q=60", 
+            video: "https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-pixel-art-style-clouds-31940-large.mp4",
+            desc: "Cocokkan 3 huruf hijaiyah yang sama untuk memecahkan puzzle.", 
+            tags: ["Puzzle", "Logic"] 
+        }
+    ]);
 
+    // Data Team
+    let myTeam: TeamMember[] = $state([
+        {
+            name: "Ucup Markucup",
+            role: "Lead Developer",
+            avatar: "/team/ucup.jpg", // Disarankan path absolut dari static
+            avatarColor: "bg-blue-200",
+            bio: "Spesialis Svelte dan sihir CSS modern."
+        },
+        {
+            name: "Kucai",
+            role: "Pixel Artist",
+            avatar: "/team/kucai.jpg",
+            avatarColor: "bg-rose-200",
+            bio: "Menggambar setiap piksel dengan penuh cinta."
+        },
+        {
+            name: "Bujas",
+            role: "Game Designer",
+            avatar: "/team/bujas.jpg",
+            avatarColor: "bg-slate-300",
+            bio: "Pakar menciptakan atmosfer menenangkan."
+        }
+    ]);
 
-    // 3. State Preview
+    // State Preview
+    // Kita inisialisasi dengan data dummy yang aman, atau ambil dari myGames[0]
     let activePreview = $state({
         title: "K H W A R I Z M I",
         video: myGames[1].video 
     });
 
-    function updatePreview(game: any) {
+    function updatePreview(game: Game) {
         activePreview = {
             title: game.title,
             video: game.video
         };
     }
-
-    // 4. Data Team
-    let myTeam = $state([
-    {
-        name: "Bayu",
-        role: "Game Developer",
-        avatar: "bayu.png",
-        bio: "Pakar menciptakan atmosfer menenangkan."
-    },
-     {
-        name: "Zain",
-        role: "Game Developer",
-        avatar: "zain.png",
-        bio: "Pakar menciptakan atmosfer menenangkan."
-    },
-     {
-        name: "Arif",
-        role: "Game Designer",
-        avatar: "arif.png",
-        bio: "Pakar menciptakan atmosfer menenangkan."
-    },
-     {
-        name: "Zaidan",
-        role: "Game Develop",
-        avatar: "zaidan.png",
-        bio: "Pakar menciptakan atmosfer menenangkan."
-    },
-     {
-        name: "Farhan",
-        role: "Game Develop",
-        avatar: "farhan.jpg",
-        bio: "Pakar menciptakan atmosfer menenangkan."
-    },
-     {
-        name: "farrel",
-        role: "Lead progammer",
-        avatar: "farrel.jpg",
-        bio: "Pakar menciptakan atmosfer menenangkan."
-    },
-]);
-
 </script>
+
+<svelte:head>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+</svelte:head>
 
 {#if isLoading}
     <div 
@@ -163,8 +168,15 @@
                         <div class="bg-slate-800 p-2 md:p-4 pb-8 md:pb-12 rounded-t-[2rem] md:rounded-t-[3rem] border-[4px] md:border-8 border-black shadow-[10px_10px_0_0_rgba(0,0,0,0.2)] md:shadow-[20px_20px_0_0_rgba(0,0,0,0.2)]">
                             <div class="bg-black aspect-video overflow-hidden border-2 md:border-4 border-black relative">
                                 {#key activePreview.video}
-                                    <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                                    <video 
+                                        autoplay 
+                                        muted 
+                                        loop 
+                                        playsinline 
+                                        class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                                    >
                                         <source src={activePreview.video} type="video/mp4">
+                                        Your browser does not support the video tag.
                                     </video>
                                 {/key}
 
@@ -190,20 +202,25 @@
 
                 <section id="games" class="scroll-mt-24 md:scroll-mt-32 overflow-hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-10 px-2 gap-2 md:gap-0">
-                        <h2 class="text-2xl md:text-3xl font-black text-slate-800 uppercase italic">
-                            Featured <span class="text-blue-600">Games</span>
+                        
+                        <h2 class="text-3xl md:text-5xl font-bold text-slate-900 uppercase tracking-wider" 
+                            style="font-family: 'Silkscreen', cursive; text-shadow: 2px 2px 0px #fff, 4px 4px 0px #000;">
+                            Featured <span class="text-[#0C7779]">Games</span>
                         </h2>
-                        <p class="text-[9px] md:text-[10px] font-black bg-black text-white px-2 md:px-3 py-1 animate-pulse uppercase tracking-tighter self-start md:self-auto">
+                        
+                        <p class="text-[10px] md:text-xs font-bold bg-black text-white px-3 py-1.5 md:px-4 md:py-2 animate-pulse uppercase tracking-widest self-start md:self-auto border-2 border-white shadow-[2px_2px_0_0_#000]" 
+                           style="font-family: 'Silkscreen', cursive;">
                             Hover to Preview | Shift + Scroll →
                         </p>
+
                     </div>
 
                     <div class="flex overflow-x-auto gap-4 md:gap-8 pb-10 md:pb-14 no-scrollbar snap-x snap-mandatory scroll-smooth px-1">
                         {#each myGames as game (game.id)}
                             <div 
                                 onmouseenter={() => updatePreview(game)} 
-                                role="presentation"
-                                class="snap-center shrink-0"
+                                role="group"
+                                class="snap-center shrink-0 cursor-pointer transition-transform hover:-translate-y-2"
                             >
                                 <GameCard {game} />
                             </div>
@@ -239,9 +256,11 @@
         overflow-x: hidden;
     }
 
+    /* Utilitas Scrollbar */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+    /* Custom Scrollbar Global */
     :global(::-webkit-scrollbar) { width: 12px; }
     :global(::-webkit-scrollbar-track) { background: #000; }
     :global(::-webkit-scrollbar-thumb) { background: #fbbf24; border: 3px solid #000; }
