@@ -1,51 +1,130 @@
 <script lang="ts">
-	// Svelte 5 state untuk mendeteksi scroll
-	let y = $state(0);
-	let isScrolled = $derived(y > 50);
+    import { fade, slide } from 'svelte/transition';
 
-	let navLinks = [
-		{ name: 'Home', href: '#' },
-		{ name: 'Games', href: '#games' },
-		{ name: 'About', href: '#about' }
-	];
+    // State Svelte 5
+    let y = $state(0);
+    let isScrolled = $derived(y > 20);
+    let isMobileOpen = $state(false);
+
+    let navLinks = [
+        { name: 'Home', href: '#' },
+        { name: 'Games', href: '#games' },
+        { name: 'About', href: '#about' },
+        { name: 'Team', href: '#team' }
+    ];
+
+    function toggleMobile() {
+        isMobileOpen = !isMobileOpen;
+    }
 </script>
+
+<svelte:head>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</svelte:head>
 
 <svelte:window bind:scrollY={y} />
 
-<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 {isScrolled ? 'py-2' : 'py-6'}">
-	<div class="max-w-6xl mx-auto px-6">
-		<div class="bg-white/80 backdrop-blur-md border-4 border-black p-3 shadow-[6px_6px_0_0_#000] flex justify-between items-center transition-all">
-			
-			<a href="/" class="flex items-center gap-2 group">
-				<div class="w-8 h-8 bg-blue-400 border-2 border-black flex items-center justify-center group-hover:rotate-12 transition-transform">
-					<div class="w-2 h-2 bg-white animate-pulse"></div>
-				</div>
-				<span class="font-black text-xl tracking-tighter text-slate-800">PIXEL.STUDIO</span>
-			</a>
+<nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 font-pixel px-4 {isScrolled ? 'py-2' : 'py-6'}">
+    <div class="max-w-7xl mx-auto">
+        
+        <div class="relative bg-white border-4 border-black p-2 shadow-[8px_8px_0_0_#0C7779] transition-all duration-300 hover:shadow-[6px_6px_0_0_#000] hover:translate-x-[2px] hover:translate-y-[2px]">
+            
+            <div class="absolute top-1 left-1 w-2 h-2 bg-black opacity-20"></div>
+            <div class="absolute top-1 right-1 w-2 h-2 bg-black opacity-20"></div>
+            <div class="absolute bottom-1 left-1 w-2 h-2 bg-black opacity-20"></div>
+            <div class="absolute bottom-1 right-1 w-2 h-2 bg-black opacity-20"></div>
 
-			<div class="hidden md:flex gap-8">
-				{#each navLinks as link}
-					<a 
-						href={link.href} 
-						class="font-bold text-sm uppercase tracking-widest text-slate-600 hover:text-blue-500 transition-colors relative group"
-					>
-						{link.name}
-						<span class="absolute -bottom-1 left-0 w-0 h-1 bg-yellow-400 transition-all group-hover:w-full"></span>
-					</a>
-				{/each}
-			</div>
+            <div class="flex justify-between items-center px-2">
+                
+                <a href="/" class="logo-container group flex items-center gap-3 relative overflow-hidden p-1">
+                    <div class="w-10 h-10 bg-[#0C7779] border-2 border-black flex items-center justify-center shadow-[2px_2px_0_0_#000] group-hover:bg-[#F3E5AB] transition-colors">
+                        <div class="w-4 h-4 bg-white border-2 border-transparent group-hover:border-black group-hover:bg-transparent group-hover:rotate-45 transition-all duration-500"></div>
+                    </div>
+                    <div class="flex flex-col leading-none">
+                        <span class="font-black text-2xl tracking-tighter text-slate-900 group-hover:translate-x-1 transition-transform">
+                            KHWARIZMI
+                        </span>
+                        <span class="text-xs font-bold text-[#0C7779] tracking-[0.3em] group-hover:text-black">
+                            STUDIO
+                        </span>
+                    </div>
+                    <div class="glitch-layer absolute inset-0 bg-white mix-blend-difference opacity-0 pointer-events-none"></div>
+                </a>
 
-			<button class="bg-emerald-500 text-white border-2 border-black px-4 py-1 text-xs font-bold uppercase shadow-[3px_3px_0_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all active:scale-95">
-				Contact
-			</button>
-		</div>
-	</div>
+                <div class="hidden md:flex items-center gap-2">
+                    {#each navLinks as link}
+                        <a 
+                            href={link.href} 
+                            class="relative px-6 py-2 text-xl font-bold uppercase tracking-widest text-slate-600 overflow-hidden group/link hover:text-white transition-colors"
+                        >
+                            <span class="relative z-10">{link.name}</span>
+                            <div class="absolute inset-0 bg-[#0C7779] transform -translate-x-full group-hover/link:translate-x-0 transition-transform duration-300 ease-out"></div>
+                        </a>
+                    {/each}
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button class="hidden md:block bg-[#F3E5AB] text-black border-2 border-black px-6 py-2 text-lg font-black uppercase tracking-wide shadow-[4px_4px_0_0_#000] hover:bg-[#0C7779] hover:text-white hover:shadow-[2px_2px_0_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] active:scale-95 transition-all">
+                        Let's Talk
+                    </button>
+
+                    <button 
+                        onclick={toggleMobile}
+                        aria-label="Toggle mobile menu"
+                        class="md:hidden w-10 h-10 bg-black text-white border-2 border-black flex flex-col items-center justify-center gap-1.5 active:scale-90 transition-transform"
+                    >
+                        <div class="w-6 h-0.5 bg-white transition-all {isMobileOpen ? 'rotate-45 translate-y-2' : ''}"></div>
+                        <div class="w-6 h-0.5 bg-white transition-all {isMobileOpen ? 'opacity-0' : ''}"></div>
+                        <div class="w-6 h-0.5 bg-white transition-all {isMobileOpen ? '-rotate-45 -translate-y-2' : ''}"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {#if isMobileOpen}
+            <div 
+                transition:slide={{ duration: 300 }}
+                class="md:hidden mt-2 bg-black border-4 border-[#F3E5AB] p-4 shadow-[8px_8px_0_0_#0C7779]"
+            >
+                <div class="flex flex-col gap-2">
+                    {#each navLinks as link}
+                        <a 
+                            href={link.href}
+                            onclick={() => isMobileOpen = false} 
+                            class="block bg-white/10 text-[#F3E5AB] px-4 py-3 text-2xl font-bold uppercase hover:bg-[#0C7779] hover:text-white border-2 border-transparent hover:border-[#F3E5AB] transition-all"
+                        >
+                            > {link.name}
+                        </a>
+                    {/each}
+                    <button class="mt-4 w-full bg-[#F3E5AB] text-black border-2 border-black py-3 text-xl font-black uppercase hover:bg-white transition-colors">
+                        Contact Us
+                    </button>
+                </div>
+            </div>
+        {/if}
+
+    </div>
 </nav>
 
-<div class="h-24"></div>
+<div class="h-32"></div>
 
 <style>
-	nav {
-		font-family: 'DotGothic16', sans-serif;
-	}
+    .font-pixel {
+        font-family: 'VT323', monospace;
+    }
+
+    @keyframes glitch {
+        0% { transform: translate(0); }
+        20% { transform: translate(-2px, 2px); }
+        40% { transform: translate(-2px, -2px); }
+        60% { transform: translate(2px, 2px); }
+        80% { transform: translate(2px, -2px); }
+        100% { transform: translate(0); }
+    }   
+
+    /* Target hover secara manual agar Svelte mendeteksi selector ini dan tidak error */
+    .logo-container:hover .glitch-layer {
+        opacity: 0.5;
+        animation: glitch 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    }
 </style>
