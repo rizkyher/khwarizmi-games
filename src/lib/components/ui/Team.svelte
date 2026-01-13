@@ -62,16 +62,28 @@
                 onclick={() => openModal(member)}
                 class="group text-left bg-[#0C7779] border-4 border-black p-6 shadow-[10px_10px_0_0_#000] hover:shadow-[12px_12px_0_0_#F3E5AB] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 outline-none"
             >
-                <div class="w-full aspect-square {member.avatarColor} border-4 border-black mb-6 relative overflow-hidden flex flex-col items-center justify-center shadow-[4px_4px_0_0_#000]">
-                    <div class="flex gap-6 group-hover:scale-125 transition-transform duration-300">
-                        <div class="w-4 h-4 bg-black animate-eye-blink"></div>
-                        <div class="w-4 h-4 bg-black animate-eye-blink"></div>
-                    </div>
-                    <div class="absolute bottom-12 flex justify-between w-24 opacity-60">
-                        <div class="w-6 h-2 bg-rose-400"></div>
-                        <div class="w-6 h-2 bg-rose-400"></div>
-                    </div>
-                </div>
+                <div class="w-full aspect-square border-4 border-black mb-6 relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0_0_#000] bg-white">
+    
+    <img
+        src={member.avatar}
+        alt={member.name}
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        loading="lazy"
+    />
+
+    <!-- overlay pixel / texture -->
+    <div class="absolute inset-0 pointer-events-none opacity-20
+                bg-[radial-gradient(#000_2px,transparent_1px)]
+                [background-size:6px_6px]">
+    </div>
+
+    <!-- optional blush overlay (ganti mata pixel) -->
+    <div class="absolute bottom-10 flex justify-between w-24 opacity-50 pointer-events-none">
+        <div class="w-6 h-2 bg-rose-400"></div>
+        <div class="w-6 h-2 bg-rose-400"></div>
+    </div>
+</div>
+
 
                 <div class="text-center">
                     <h3 class="text-4xl font-black uppercase text-white leading-none group-hover:text-[#F3E5AB] transition-colors">
@@ -115,12 +127,22 @@
             </button>
 
             <div class="p-8 md:p-12 flex flex-col md:flex-row gap-8">
-                <div class="w-full md:w-1/3 aspect-square {selectedMember.avatarColor} border-4 border-black flex items-center justify-center relative">
-                    <div class="flex gap-4 scale-[2]">
-                        <div class="w-4 h-4 bg-black animate-eye-blink"></div>
-                        <div class="w-4 h-4 bg-black animate-eye-blink"></div>
-                    </div>
-                </div>
+                <div class="w-full md:w-1/3 aspect-square border-4 border-black relative overflow-hidden bg-white shadow-[6px_6px_0_0_#000]">
+    
+    <img
+        src={selectedMember.avatar}
+        alt={selectedMember.name}
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
+    />
+
+    <!-- overlay pixel optional -->
+    <div class="absolute inset-0 pointer-events-none opacity-20
+                bg-[radial-gradient(#000_2px,transparent_1px)]
+                [background-size:6px_6px]">
+    </div>
+</div>
+
 
                 <div class="flex-1 space-y-4">
                     <h2 class="text-5xl font-black uppercase text-[#0C7779]">{selectedMember.name}</h2>

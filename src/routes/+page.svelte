@@ -22,38 +22,57 @@
     }
 
     // 2. Data Game
-    let myGames = $state([
-        { 
-            id: 1, title: "Cyber Drift", color: "bg-cyan-400",
-            video: "Video Vario.mp4",
-            desc: "Hindari rintangan di dunia neon masa depan dengan kecepatan tinggi.", tags: ["Action", "Sci-Fi"] 
-        },
-        { 
-            id: 2, title: "Spirit Woods", color: "bg-emerald-400",
-            video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
-            desc: "Petualangan puzzle santai di dalam hutan yang penuh dengan roh baik.", tags: ["Cozy", "Puzzle"] 
-        },
-        { 
-            id: 3, title: "Sky Castle", color: "bg-sky-300",
-            video: "https://assets.mixkit.co/videos/preview/mixkit-cartoon-character-running-in-a-forest-41485-large.mp4",
-            desc: "Bangun kerajaanmu di atas awan dan lindungi dari serangan naga.", tags: ["Strategy", "Fantasy"] 
-        },
-        { 
-            id: 4, title: "Totoro Run", color: "bg-orange-300",
-            video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-of-a-person-running-in-the-rain-31936-large.mp4",
-            desc: "Lari secepat mungkin untuk mengejar Bus Kucing sebelum hujan turun.", tags: ["Runner", "Ghibli"] 
-        },
-        { 
-            id: 5, title: "Pixel Chef", color: "bg-rose-400",
-            video: "https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-food-in-a-kitchen-pixel-art-41490-large.mp4",
-            desc: "Masak makanan lezat untuk para petualang yang mampir ke kedaimu.", tags: ["Simulation"] 
-        },
-        { 
-            id: 6, title: "Star Gazing", color: "bg-indigo-400",
-            video: "https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-pixel-art-style-clouds-31940-large.mp4",
-            desc: "Hubungkan rasi bintang untuk mengungkap cerita kuno di langit malam.", tags: ["Educational"] 
-        }
-    ]);
+   let myGames = $state([
+    { 
+        id: 1,
+        title: "Writing Hijaiyah",
+        img: "writing.jpg",
+        video: "Video Vario.mp4",
+        desc: "Belajar menulis huruf Hijaiyah dengan cara yang menyenangkan.",
+        tags: ["Action", "Sci-Fi"]
+    },
+    { 
+        id: 2,
+        title: "Spirit Woods",
+        img: "/games/spirit-woods.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        desc: "Petualangan puzzle santai di dalam hutan yang penuh dengan roh baik.",
+        tags: ["Cozy", "Puzzle"]
+    },
+    { 
+        id: 3,
+        title: "Sky Castle",
+        img: "/games/sky-castle.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-cartoon-character-running-in-a-forest-41485-large.mp4",
+        desc: "Bangun kerajaanmu di atas awan dan lindungi dari serangan naga.",
+        tags: ["Strategy", "Fantasy"]
+    },
+    { 
+        id: 4,
+        title: "Totoro Run",
+        img: "/games/totoro-run.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-of-a-person-running-in-the-rain-31936-large.mp4",
+        desc: "Lari secepat mungkin untuk mengejar Bus Kucing sebelum hujan turun.",
+        tags: ["Runner", "Ghibli"]
+    },
+    { 
+        id: 5,
+        title: "Pixel Chef",
+        img: "/games/pixel-chef.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-food-in-a-kitchen-pixel-art-41490-large.mp4",
+        desc: "Masak makanan lezat untuk para petualang yang mampir ke kedaimu.",
+        tags: ["Simulation"]
+    },
+    { 
+        id: 6,
+        title: "Star Gazing",
+        img: "/games/star-gazing.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-pixel-art-style-clouds-31940-large.mp4",
+        desc: "Hubungkan rasi bintang untuk mengungkap cerita kuno di langit malam.",
+        tags: ["Educational"]
+    }
+]);
+
 
     // 3. State Preview
     let activePreview = $state({
@@ -70,10 +89,26 @@
 
     // 4. Data Team
     let myTeam = $state([
-        { name: "Ucup Markucup", role: "Lead Developer", avatarColor: "bg-blue-200", bio: "Spesialis Svelte dan sihir CSS modern." },
-        { name: "Kucai", role: "Pixel Artist", avatarColor: "bg-rose-200", bio: "Menggambar setiap piksel dengan penuh cinta." },
-        { name: "Bujas", role: "Game Designer", avatarColor: "bg-slate-300", bio: "Pakar menciptakan atmosfer menenangkan." }
-    ]);
+    {
+        name: "Ucup Markucup",
+        role: "Lead Developer",
+        avatar: "0.jpg",
+        bio: "Spesialis Svelte dan sihir CSS modern."
+    },
+    {
+        name: "Kucai",
+        role: "Pixel Artist",
+        avatar: "/team/kucai.jpg",
+        bio: "Menggambar setiap piksel dengan penuh cinta."
+    },
+    {
+        name: "Bujas",
+        role: "Game Designer",
+        avatar: "/team/bujas.jpg",
+        bio: "Pakar menciptakan atmosfer menenangkan."
+    }
+]);
+
 </script>
 
 {#if isLoading}

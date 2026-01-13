@@ -36,20 +36,21 @@
 
             <div class="flex justify-between items-center px-2">
                 
-                <a href="/" class="logo-container group flex items-center gap-3 relative overflow-hidden p-1">
-                    <div class="w-10 h-10 bg-[#0C7779] border-2 border-black flex items-center justify-center shadow-[2px_2px_0_0_#000] group-hover:bg-[#F3E5AB] transition-colors">
-                        <div class="w-4 h-4 bg-white border-2 border-transparent group-hover:border-black group-hover:bg-transparent group-hover:rotate-45 transition-all duration-500"></div>
-                    </div>
-                    <div class="flex flex-col leading-none">
-                        <span class="font-black text-2xl tracking-tighter text-slate-900 group-hover:translate-x-1 transition-transform">
-                            KHWARIZMI
-                        </span>
-                        <span class="text-xs font-bold text-[#0C7779] tracking-[0.3em] group-hover:text-black">
-                            STUDIO
-                        </span>
-                    </div>
-                    <div class="glitch-layer absolute inset-0 bg-white mix-blend-difference opacity-0 pointer-events-none"></div>
-                </a>
+                <a
+    href="/"
+    class="logo-container group flex items-center gap-3 relative overflow-hidden p-1"
+>
+    <div class="w-12 h-12 border-2 border-black bg-white shadow-[2px_2px_0_0_#000] flex items-center justify-center group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all">
+        <img
+            src="/logo.jpg"
+            alt="KHWARIZMI Studio"
+            class="w-10 h-10 object-contain"
+        />
+    </div>
+
+    <div class="glitch-layer absolute inset-0 bg-white mix-blend-difference opacity-0 pointer-events-none"></div>
+</a>
+
 
                 <div class="hidden md:flex items-center gap-2">
                     {#each navLinks as link}
