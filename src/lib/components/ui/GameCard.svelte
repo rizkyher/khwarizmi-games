@@ -42,21 +42,34 @@
                {isHovered ? '-translate-y-2 md:-translate-y-4 shadow-[8px_8px_0_0_#0C7779] md:shadow-[12px_12px_0_0_#0C7779]' : 'shadow-[6px_6px_0_0_#000] md:shadow-[8px_8px_0_0_#000]'} 
                cursor-pointer outline-none block"
     >
-        <div class="aspect-video {game.color} border-[3px] md:border-4 border-black flex items-center justify-center relative overflow-hidden">
-            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:6px_6px]"></div>
-            
-            <span class="text-white font-black text-4xl md:text-5xl drop-shadow-[3px_3px_0_#000] transition-transform duration-300 {isHovered ? 'scale-150 -rotate-3' : 'scale-100'}">
-                {game.id}
+        <div class="aspect-video border-4 border-black relative overflow-hidden bg-black">
+    
+    <img
+        src={game.img}
+        alt={game.title}
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-300
+               {isHovered ? 'scale-110' : 'scale-100'}"
+        loading="lazy"
+    />
+
+    <!-- overlay pixel -->
+    <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:6px_6px] pointer-events-none"></div>
+
+    <!-- ID / overlay -->
+    <span class="relative z-10 text-white font-black text-4xl md:text-5xl drop-shadow-[3px_3px_0_#000] transition-transform duration-300
+        {isHovered ? 'scale-150 -rotate-3' : 'scale-100'}">
+        {game.id}
+    </span>
+
+    {#if isHovered}
+        <div class="absolute inset-0 bg-[#0C7779]/50 flex items-center justify-center backdrop-blur-[1px] animate-fade">
+            <span class="bg-white border-2 border-black px-3 py-1 font-bold text-lg shadow-[4px_4px_0_0_#000] -rotate-2">
+                VIEW DETAIL
             </span>
-            
-            {#if isHovered}
-                <div class="absolute inset-0 bg-[#0C7779]/40 flex items-center justify-center backdrop-blur-[1px] animate-fade">
-                    <span class="bg-white border-2 border-black px-3 py-1 font-bold text-lg md:text-xl shadow-[4px_4px_0_0_#000] -rotate-2">
-                        VIEW DETAIL
-                    </span>
-                </div>
-            {/if}
         </div>
+    {/if}
+</div>
+
 
         <div class="p-3 md:p-4 bg-white transition-colors">
             <h2 class="text-xl md:text-2xl font-black text-slate-900 uppercase mb-2 group-hover:text-[#0C7779] transition-colors leading-none truncate">

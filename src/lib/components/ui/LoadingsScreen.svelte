@@ -54,7 +54,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </svelte:head>
 
-<div class="fixed inset-0 z-[9999] overflow-hidden font-['Press_Start_2P'] select-none bg-[#0C7779] text-[#E0F2F1]" style="image-rendering: pixelated;">
+<div class="fixed inset-0 z-[9999] overflow-hidden font-['Press_Start_2P'] select-none bg-[#000] text-[#E0F2F1]" style="image-rendering: pixelated;">
     
     <div class="absolute inset-0 bg-[linear-gradient(to_bottom,#085C5E_0%,#4FA4B8_100%)]"></div>
     <div class="absolute top-10 right-20 w-16 h-16 bg-[#FCD34D] border-4 border-[#FBBF24] shadow-[4px_4px_0_rgba(0,0,0,0.2)]"></div>

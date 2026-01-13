@@ -83,7 +83,7 @@
 
   {#if menuOpen}
     <div transition:fade={{ duration: 300 }} class="fixed inset-0 bg-[#f1f0e8] z-[-1] flex flex-col items-center justify-center p-6 overflow-hidden">
-      <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/p6.png')]"></div>
+      <div class="absolute inset-0 opacity-10 bg-[url('/static/forest.jpg')]"></div>
 
       <div class="absolute top-10 left-10 text-6xl animate-pulse">☁️</div>
       <div class="absolute bottom-20 right-10 text-6xl animate-bounce">🌿</div>
