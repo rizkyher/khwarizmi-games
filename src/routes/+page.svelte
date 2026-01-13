@@ -11,7 +11,6 @@
     import Team from '$lib/components/ui/Team.svelte';
     import Footer from '$lib/components/ui/Footer.svelte';
     
-    // Pastikan nama file import sesuai (LoadingsScreen atau LoadingScreen)
     import LoadingScreen from '$lib/components/ui/LoadingsScreen.svelte';    
 
     // --- LOGIKA LOADING SCREEN ---
@@ -24,32 +23,32 @@
     // 2. Data Game
     let myGames = $state([
         { 
-            id: 1, title: "Cyber Drift", color: "bg-cyan-400",
+            id: 1, title: "Santri Bros", color: "bg-cyan-400",
             video: "Video Vario.mp4",
             desc: "Hindari rintangan di dunia neon masa depan dengan kecepatan tinggi.", tags: ["Action", "Sci-Fi"] 
         },
         { 
-            id: 2, title: "Spirit Woods", color: "bg-emerald-400",
+            id: 2, title: "Writting Hijaiyah", color: "bg-emerald-400",
             video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
             desc: "Petualangan puzzle santai di dalam hutan yang penuh dengan roh baik.", tags: ["Cozy", "Puzzle"] 
         },
         { 
-            id: 3, title: "Sky Castle", color: "bg-sky-300",
+            id: 3, title: "Flappy Hijaiyah", color: "bg-sky-300",
             video: "https://assets.mixkit.co/videos/preview/mixkit-cartoon-character-running-in-a-forest-41485-large.mp4",
-            desc: "Bangun kerajaanmu di atas awan dan lindungi dari serangan naga.", tags: ["Strategy", "Fantasy"] 
+            desc: "Terbang menghindari rintangan sambil mengumpulkan huruf hijaiyah yang tepat.", tags: ["Strategy", "Fantasy"] 
         },
         { 
-            id: 4, title: "Totoro Run", color: "bg-orange-300",
+            id: 4, title: "Catching The Hijaiyah", color: "bg-orange-300",
             video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-of-a-person-running-in-the-rain-31936-large.mp4",
             desc: "Lari secepat mungkin untuk mengejar Bus Kucing sebelum hujan turun.", tags: ["Runner", "Ghibli"] 
         },
         { 
-            id: 5, title: "Pixel Chef", color: "bg-rose-400",
+            id: 5, title: "Car Hijaiyah Hunt", color: "bg-rose-400",
             video: "https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-food-in-a-kitchen-pixel-art-41490-large.mp4",
             desc: "Masak makanan lezat untuk para petualang yang mampir ke kedaimu.", tags: ["Simulation"] 
         },
         { 
-            id: 6, title: "Star Gazing", color: "bg-indigo-400",
+            id: 6, title: "Match 3 Hijaiyah", color: "bg-indigo-400",
             video: "https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-pixel-art-style-clouds-31940-large.mp4",
             desc: "Hubungkan rasi bintang untuk mengungkap cerita kuno di langit malam.", tags: ["Educational"] 
         }
@@ -75,6 +74,10 @@
         { name: "Bujas", role: "Game Designer", avatarColor: "bg-slate-300", bio: "Pakar menciptakan atmosfer menenangkan." }
     ]);
 </script>
+
+<svelte:head>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+</svelte:head>
 
 {#if isLoading}
     <div 
@@ -137,12 +140,17 @@
 
                 <section id="games" class="scroll-mt-24 md:scroll-mt-32 overflow-hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-10 px-2 gap-2 md:gap-0">
-                        <h2 class="text-2xl md:text-3xl font-black text-slate-800 uppercase italic">
-                            Featured <span class="text-blue-600">Games</span>
+                        
+                        <h2 class="text-3xl md:text-5xl font-bold text-slate-900 uppercase tracking-wider" 
+                            style="font-family: 'Silkscreen', cursive; text-shadow: 2px 2px 0px #fff, 4px 4px 0px #000;">
+                            Featured <span class="text-[#0C7779]">Games</span>
                         </h2>
-                        <p class="text-[9px] md:text-[10px] font-black bg-black text-white px-2 md:px-3 py-1 animate-pulse uppercase tracking-tighter self-start md:self-auto">
+                        
+                        <p class="text-[10px] md:text-xs font-bold bg-black text-white px-3 py-1.5 md:px-4 md:py-2 animate-pulse uppercase tracking-widest self-start md:self-auto border-2 border-white shadow-[2px_2px_0_0_#000]" 
+                           style="font-family: 'Silkscreen', cursive;">
                             Hover to Preview | Shift + Scroll →
                         </p>
+
                     </div>
 
                     <div class="flex overflow-x-auto gap-4 md:gap-8 pb-10 md:pb-14 no-scrollbar snap-x snap-mandatory scroll-smooth px-1">
