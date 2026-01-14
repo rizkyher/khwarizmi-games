@@ -5,7 +5,7 @@
     // --- 1. Import Komponen (Pastikan nama file sesuai Besar/Kecilnya) ---
     import Navbar from '$lib/components/ui/Navbar.svelte';
     import Clouds from '$lib/components/ui/Clouds.svelte';
-    import Header from '$lib/components/ui/Header.svelte'; // Diperbaiki: header -> Header
+    import Header from '$lib/components/ui/header.svelte'; // Diperbaiki: header -> Header
     import GameCard from '$lib/components/ui/GameCard.svelte';
     import About from '$lib/components/ui/About.svelte';
     import Team from '$lib/components/ui/Team.svelte';
@@ -13,13 +13,13 @@
     import LoadingScreen from '$lib/components/ui/LoadingsScreen.svelte'; 
 
     // --- 2. Definisi Tipe Data (TypeScript) ---
-    interface Game {
+   interface GameItem {
         id: number;
         title: string;
-        image: string;
-        video: string;
         desc: string;
         tags: string[];
+        color?: string; // Tanda tanya membuatnya tidak wajib
+        img: string;
     }
 
     interface TeamMember {
@@ -42,9 +42,9 @@
         { 
             id: 1, 
             title: "Santri Bros", 
-            image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=60", 
+            image: "/SantriBros.png", 
             // Pastikan file ini ada di folder /static/
-            video: "/Video Vario.mp4", 
+            video: "", 
             desc: "Petualangan platformer klasik dengan sentuhan lokal santri.", 
             tags: ["Action", "Platformer"] 
         },
@@ -95,7 +95,7 @@
         {
             name: "Ucup Markucup",
             role: "Lead Developer",
-            avatar: "/team/ucup.jpg", // Disarankan path absolut dari static
+            avatar: "bayu.png", // Disarankan path absolut dari static
             avatarColor: "bg-blue-200",
             bio: "Spesialis Svelte dan sihir CSS modern."
         },
@@ -200,33 +200,43 @@
                     <div class="h-1 flex-grow bg-black shadow-[0_2px_0_0_#fff]"></div>
                 </div>
 
-                <section id="games" class="scroll-mt-24 md:scroll-mt-32 overflow-hidden">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-10 px-2 gap-2 md:gap-0">
-                        
-                        <h2 class="text-3xl md:text-5xl font-bold text-slate-900 uppercase tracking-wider" 
-                            style="font-family: 'Silkscreen', cursive; text-shadow: 2px 2px 0px #fff, 4px 4px 0px #000;">
-                            Featured <span class="text-[#0C7779]">Games</span>
-                        </h2>
-                        
-                        <p class="text-[10px] md:text-xs font-bold bg-black text-white px-3 py-1.5 md:px-4 md:py-2 animate-pulse uppercase tracking-widest self-start md:self-auto border-2 border-white shadow-[2px_2px_0_0_#000]" 
-                           style="font-family: 'Silkscreen', cursive;">
-                            Hover to Preview | Shift + Scroll →
-                        </p>
+               <section
+    id="games"
+    class="scroll-mt-24 md:scroll-mt-32 overflow-hidden"
+>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-10 px-2 gap-2 md:gap-0">
+        <h2
+            class="text-3xl md:text-5xl font-bold text-slate-900 uppercase tracking-wider"
+            style="font-family: 'Silkscreen', cursive; text-shadow: 2px 2px 0px #fff, 4px 4px 0px #000;"
+        >
+            Featured <span class="text-[#0C7779]">Games</span>
+        </h2>
 
-                    </div>
+        <p
+            class="text-[10px] md:text-xs font-bold bg-black text-white px-3 py-1.5 md:px-4 md:py-2 animate-pulse uppercase tracking-widest self-start md:self-auto border-2 border-white shadow-[2px_2px_0_0_#000]"
+            style="font-family: 'Silkscreen', cursive;"
+        >
+            Hover / Focus to Preview | Shift + Scroll →
+        </p>
+    </div>
 
-                    <div class="flex overflow-x-auto gap-4 md:gap-8 pb-10 md:pb-14 no-scrollbar snap-x snap-mandatory scroll-smooth px-1">
-                        {#each myGames as game (game.id)}
-                            <div 
-                                onmouseenter={() => updatePreview(game)} 
-                                role="group"
-                                class="snap-center shrink-0 cursor-pointer transition-transform hover:-translate-y-2"
-                            >
-                                <GameCard {game} />
-                            </div>
-                        {/each}
-                    </div>
-                </section>
+    <div
+        class="flex overflow-x-auto gap-4 md:gap-8 pb-10 md:pb-14 no-scrollbar snap-x snap-mandatory scroll-smooth px-1"
+    >
+        {#each myGames as game (game.id)}
+           <div
+    class="snap-center shrink-0 cursor-pointer"
+    onfocusin={() => updatePreview(game)}
+>
+    <GameCard {game} />
+</div>
+
+
+        {/each}
+    </div>
+</section>
+
+
 
                 <section id="about" class="scroll-mt-24 md:scroll-mt-32">
                     <About />
