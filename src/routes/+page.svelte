@@ -63,7 +63,7 @@
         id: 2, 
         title: "Writing Hijaiyah", 
         image: "writing.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        video: "",
         desc: "Belajar menulis huruf hijaiyah...",
         tags: ["Educational", "Cozy"],
         link: "https://game-kamu.com/writing-hijaiyah"
@@ -72,7 +72,7 @@
         id: 3, 
         title: "Car hunt", 
         image: "Mobil.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        video: "",
         desc: "Belajar menulis huruf hijaiyah...",
         tags: ["Educational", "Cozy"],
         link: "https://gd.games/instant-builds/c1154933-db49-49ca-94ef-d2682b9632f2"
@@ -81,7 +81,7 @@
         id: 4, 
         title: "Flappy Bird", 
         image: "flappy.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        video: "",
         desc: "Belajar menulis huruf hijaiyah...",
         tags: ["Educational", "Cozy"],
         link: "https://gd.games/instant-builds/9ab745ac-3112-4c67-bd19-ad9b12d3c14c"
@@ -90,9 +90,18 @@
         id: 5, 
         title: "Match Hijaiyah", 
         image: "match.jpg",
-        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        video: "",
         desc: "Belajar menulis huruf hijaiyah...",
         tags: ["Educational", "Cozy"],
+        link: "https://gd.games/instant-builds/8f743407-34c7-449a-9acc-1bc6ee73463e"
+    },
+    { 
+        id: 6, 
+        title: "Salman Al-Farisi", 
+        image: "salman.jpeg",
+        video: "",
+        desc: "The seeker of light...",
+        tags: ["VSNovel", "Sejarah"],
         link: "https://gd.games/instant-builds/8f743407-34c7-449a-9acc-1bc6ee73463e"
     },
 
