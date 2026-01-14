@@ -88,13 +88,33 @@
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out {isHovered ? 'scale-110 blur-[1px]' : 'scale-100'}"
                 loading="lazy"
             />
+        <div class="aspect-video border-4 border-black relative overflow-hidden bg-slate-900 group-hover:border-[#0C7779] transition-colors">
+            
+            <img 
+                src={game.image} 
+                alt={game.title} 
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out {isHovered ? 'scale-110 blur-[1px]' : 'scale-100'}"
+                loading="lazy"
+            />
 
+            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:6px_6px] pointer-events-none"></div>
             <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:6px_6px] pointer-events-none"></div>
 
             <span class="absolute top-2 left-2 z-10 text-white font-black text-2xl md:text-3xl drop-shadow-[2px_2px_0_#000]">
                 #{game.id}
             </span>
+            <span class="absolute top-2 left-2 z-10 text-white font-black text-2xl md:text-3xl drop-shadow-[2px_2px_0_#000]">
+                #{game.id}
+            </span>
 
+            {#if isHovered}
+                <div class="absolute inset-0 bg-[#0C7779]/60 flex items-center justify-center animate-fade">
+                    <span class="bg-white text-black border-2 border-black px-4 py-1 font-bold text-lg shadow-[4px_4px_0_0_#000] -rotate-2">
+                        VIEW DETAIL
+                    </span>
+                </div>
+            {/if}
+        </div>
             {#if isHovered}
                 <div class="absolute inset-0 bg-[#0C7779]/60 flex items-center justify-center animate-fade">
                     <span class="bg-white text-black border-2 border-black px-4 py-1 font-bold text-lg shadow-[4px_4px_0_0_#000] -rotate-2">
@@ -110,6 +130,8 @@
                 {game.title}
             </h2>
             <div class="flex gap-2 flex-wrap">
+                {#each game.tags.slice(0, 3) as tag} 
+                    <span class="bg-white border-2 border-[#0C7779] px-1.5 py-0.5 text-xs md:text-sm font-bold uppercase shadow-[2px_2px_0_0_#0C7779]">
                 {#each game.tags.slice(0, 3) as tag} 
                     <span class="bg-white border-2 border-[#0C7779] px-1.5 py-0.5 text-xs md:text-sm font-bold uppercase shadow-[2px_2px_0_0_#0C7779]">
                         {tag}
@@ -140,6 +162,7 @@
                 <button 
                     onclick={toggleModal} 
                     class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-black text-white text-2xl md:text-3xl hover:bg-red-500 transition-colors border-2 border-white shadow-[2px_2px_0_0_rgba(0,0,0,0.5)] active:translate-y-1 active:shadow-none"
+                    class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-black text-white text-2xl md:text-3xl hover:bg-red-500 transition-colors border-2 border-white shadow-[2px_2px_0_0_rgba(0,0,0,0.5)] active:translate-y-1 active:shadow-none"
                     aria-label="Close modal"
                 >
                     ×
@@ -150,6 +173,15 @@
                 <div class="flex flex-col md:flex-row gap-6 md:gap-8">
                     
                     <div class="w-full md:w-1/2 shrink-0">
+                        <div class="aspect-video md:aspect-square bg-slate-900 border-4 border-black flex items-center justify-center relative shadow-[6px_6px_0_0_#0C7779] mb-4 md:mb-0 overflow-hidden">
+                            
+                            <img 
+                                src={game.image} 
+                                alt={game.title} 
+                                class="absolute inset-0 w-full h-full object-cover"
+                            />
+
+                            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#000_2px,transparent_1px)] [background-size:8px_8px] pointer-events-none"></div>
                         <div class="aspect-video md:aspect-square bg-slate-900 border-4 border-black flex items-center justify-center relative shadow-[6px_6px_0_0_#0C7779] mb-4 md:mb-0 overflow-hidden">
                             
                             <img 
@@ -180,6 +212,7 @@
                         </p>
 
                         <button 
+                            class="w-full py-3 md:py-4 bg-[#0C7779] text-white text-xl md:text-2xl font-black uppercase border-4 border-black shadow-[4px_4px_0_0_#000] md:shadow-[6px_6px_0_0_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:scale-95 transition-all outline-none mt-auto hover:bg-[#0a6668]"
                             class="w-full py-3 md:py-4 bg-[#0C7779] text-white text-xl md:text-2xl font-black uppercase border-4 border-black shadow-[4px_4px_0_0_#000] md:shadow-[6px_6px_0_0_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:scale-95 transition-all outline-none mt-auto hover:bg-[#0a6668]"
                         >
                             PLAY NOW →
