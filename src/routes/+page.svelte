@@ -30,6 +30,17 @@
         bio: string;
     }
 
+    interface Game {
+    id: number;
+    title: string;
+    image: string;
+    video?: string;
+    desc: string;
+    tags: string[];
+    link: string;
+}
+
+
     // --- 3. Logika State (Svelte 5 Runes) ---
     let isLoading = $state(true);
 
@@ -39,81 +50,103 @@
 
     // Data Game
     let myGames: Game[] = $state([
-        { 
-            id: 1, 
-            title: "Santri Bros", 
-            image: "/SantriBros.png", 
-            // Pastikan file ini ada di folder /static/
-            video: "", 
-            desc: "Petualangan platformer klasik dengan sentuhan lokal santri.", 
-            tags: ["Action", "Platformer"] 
-        },
-        { 
-            id: 2, 
-            title: "Writing Hijaiyah", 
-            image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&auto=format&fit=crop&q=60", 
-            video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
-            desc: "Belajar menulis huruf hijaiyah dengan cara yang menenangkan dan interaktif.", 
-            tags: ["Educational", "Cozy"] 
-        },
-        { 
-            id: 3, 
-            title: "Flappy Hijaiyah", 
-            image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&auto=format&fit=crop&q=60", 
-            video: "https://assets.mixkit.co/videos/preview/mixkit-cartoon-character-running-in-a-forest-41485-large.mp4",
-            desc: "Terbang menghindari rintangan sambil mengumpulkan huruf hijaiyah yang tepat.", 
-            tags: ["Arcade", "Educational"] 
-        },
-        { 
-            id: 4, 
-            title: "Catching Hijaiyah", 
-            image: "https://images.unsplash.com/photo-1534234828563-025075d9e54d?w=600&auto=format&fit=crop&q=60", 
-            video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-of-a-person-running-in-the-rain-31936-large.mp4",
-            desc: "Tangkap huruf-huruf hijaiyah yang jatuh sebelum menyentuh tanah.", 
-            tags: ["Casual", "Speed"] 
-        },
-        { 
-            id: 5, 
-            title: "Car Hijaiyah Hunt", 
-            image: "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=600&auto=format&fit=crop&q=60", 
-            video: "https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-food-in-a-kitchen-pixel-art-41490-large.mp4",
-            desc: "Berkendara sambil berburu huruf hijaiyah di sepanjang jalanan kota.", 
-            tags: ["Racing", "Educational"] 
-        },
-        { 
-            id: 6, 
-            title: "Match 3 Hijaiyah", 
-            image: "https://images.unsplash.com/photo-1612152605347-f932c6f141d5?w=600&auto=format&fit=crop&q=60", 
-            video: "https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-pixel-art-style-clouds-31940-large.mp4",
-            desc: "Cocokkan 3 huruf hijaiyah yang sama untuk memecahkan puzzle.", 
-            tags: ["Puzzle", "Logic"] 
-        }
-    ]);
+    { 
+        id: 1, 
+        title: "Santri Bros", 
+        image: "/Santri.jpg", 
+        video: "", 
+        desc: "Petualangan platformer klasik dengan sentuhan lokal santri.", 
+        tags: ["Action", "Platformer"],
+        link: "https://gd.games/instant-builds/91b0f0ba-f8fc-4b37-8aed-bb47ae991e17"
+    },
+    { 
+        id: 2, 
+        title: "Writing Hijaiyah", 
+        image: "writing.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        desc: "Belajar menulis huruf hijaiyah...",
+        tags: ["Educational", "Cozy"],
+        link: "https://game-kamu.com/writing-hijaiyah"
+    },
+    { 
+        id: 3, 
+        title: "Car hunt", 
+        image: "Mobil.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        desc: "Belajar menulis huruf hijaiyah...",
+        tags: ["Educational", "Cozy"],
+        link: "https://gd.games/instant-builds/c1154933-db49-49ca-94ef-d2682b9632f2"
+    },
+    { 
+        id: 4, 
+        title: "Flappy Bird", 
+        image: "flappy.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        desc: "Belajar menulis huruf hijaiyah...",
+        tags: ["Educational", "Cozy"],
+        link: "https://gd.games/instant-builds/9ab745ac-3112-4c67-bd19-ad9b12d3c14c"
+    },
+    { 
+        id: 5, 
+        title: "Match Hijaiyah", 
+        image: "match.jpg",
+        video: "https://assets.mixkit.co/videos/preview/mixkit-pixel-art-animation-of-a-mountain-landscape-31932-large.mp4",
+        desc: "Belajar menulis huruf hijaiyah...",
+        tags: ["Educational", "Cozy"],
+        link: "https://gd.games/instant-builds/8f743407-34c7-449a-9acc-1bc6ee73463e"
+    },
+
+    // dst...
+]);
+
 
     // Data Team
     let myTeam: TeamMember[] = $state([
         {
-            name: "Ucup Markucup",
+            name: "Farhan",
             role: "Lead Developer",
-            avatar: "bayu.png", // Disarankan path absolut dari static
+            avatar: "farhan.jpg", // Disarankan path absolut dari static
             avatarColor: "bg-blue-200",
             bio: "Spesialis Svelte dan sihir CSS modern."
         },
         {
-            name: "Kucai",
+            name: "Bayu",
+            role: "Lead Developer",
+            avatar: "bayu.jpeg", // Disarankan path absolut dari static
+            avatarColor: "bg-blue-200",
+            bio: "Spesialis Svelte dan sihir CSS modern."
+        },
+        {
+            name: "Zain",
             role: "Pixel Artist",
-            avatar: "/team/kucai.jpg",
+            avatar: "zain.jpeg",
             avatarColor: "bg-rose-200",
             bio: "Menggambar setiap piksel dengan penuh cinta."
         },
         {
-            name: "Bujas",
+            name: "Zaidan",
             role: "Game Designer",
-            avatar: "/team/bujas.jpg",
+            avatar: "zaidan.jpeg",
             avatarColor: "bg-slate-300",
             bio: "Pakar menciptakan atmosfer menenangkan."
-        }
+        },
+        {
+            name: "Arif",
+            role: "Game Designer",
+            avatar: "arif.jpeg",
+            avatarColor: "bg-slate-300",
+            bio: "Pakar menciptakan atmosfer menenangkan."
+        },
+        {
+            name: "Farrel",
+            role: "Game Designer",
+            avatar: "farrel.jpeg",
+            avatarColor: "bg-slate-300",
+            bio: "Pakar menciptakan atmosfer menenangkan."
+        },
     ]);
+
+    
 
     // State Preview
     // Kita inisialisasi dengan data dummy yang aman, atau ambil dari myGames[0]
